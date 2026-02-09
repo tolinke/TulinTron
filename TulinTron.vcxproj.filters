@@ -1,3 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{911e2658-dc57-4895-8445-766443e122fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{fabb2a1f-36e9-4f3a-8357-4e55bda2fde1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="security">
+      <UniqueIdentifier>{5b9db854-71ae-4fbe-b4a3-3a985a4f2c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{72d30b63-30e8-42e7-b830-4a311ef23d0d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="keccak256_sm89.cu">
+      <Filter>kernel</Filter>
+    </CudaCompile>
+    <CudaCompile Include="secp256k1_gpu.cu">
+      <Filter>kernel</Filter>
+    </CudaCompile>
+    <CudaCompile Include="base58_t58.cu">
+      <Filter>kernel</Filter>
+    </CudaCompile>
+    <CudaCompile Include="main_stride.cu">
+      <Filter>kernel</Filter>
+    </CudaCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Dispatcher.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="WorkloadMgr.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultHandler.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="Auth.cpp">
+      <Filter>security</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="skCrypter.h">
+      <Filter>security</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

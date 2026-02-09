@@ -10,6 +10,22 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="base58_t58.cu" />
+    <CudaCompile Include="keccak256_sm89.cu" />
+    <CudaCompile Include="main_stride.cu" />
+    <CudaCompile Include="secp256k1_gpu.cu" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Auth.cpp" />
+    <ClCompile Include="Dispatcher.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResultHandler.cpp" />
+    <ClCompile Include="WorkloadMgr.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="skCrypter.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9BAF7603-A3B0-493D-75C0-8F60A4F86814}</ProjectGuid>
     <RootNamespace>TulinTron</RootNamespace>
@@ -55,6 +71,9 @@
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
+      <CodeGeneration>compute_89,sm_89</CodeGeneration>
+      <MaxRegCount>64</MaxRegCount>
+      <FastMath>true</FastMath>
     </CudaCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -74,11 +93,11 @@
     </Link>
     <CudaCompile>
       <TargetMachinePlatform>64</TargetMachinePlatform>
+      <CodeGeneration>compute_89,sm_89</CodeGeneration>
+      <MaxRegCount>64</MaxRegCount>
+      <FastMath>true</FastMath>
     </CudaCompile>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <CudaCompile Include="kernel.cu" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="$(VCTargetsPath)\BuildCustomizations\CUDA 12.4.targets" />
