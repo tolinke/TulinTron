@@ -8,7 +8,7 @@
 [![Security](https://img.shields.io/badge/Security-100%25%20Offline-orange.svg)]()
 
 
-![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/01.jpg)
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/01.png)
 
 ## 📢 2026-02-09 v2.0 重大更新：性能跃迁 20%
 
@@ -45,10 +45,19 @@
 🏆 任意 9位豹子：约 14 小时 
 🏆 指定 9位豹子：约 35 天 
 
+## 环境准备
 
-## 🛠 使用方法 (Usage)
+## 🛠 使用方法
+> 1.安装CUDA Toolkit 12.4+ （https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local）
 
-程序名称：`tulinTron`
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/02.png)
+
+> 2.下载最新release-x64包（https://github.com/tolinke/TulinTron/releases/tag/v2.0）
+
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/03.png)
+
+
+## 其他操作 
 
 ### 1. 查看设备
 列出所有可用的 GPU 设备及 ID，默认使用所有GPU，可支持指定GPU：
@@ -104,9 +113,9 @@
 
 ## 🌟 关注与支持
 如果你喜欢这个项目，或者它帮你跑出了心仪的靓号，请点一个 Star！这是我持续优化算力内核的最大动力。
-[项目地址: https://github.com/tolinke/TulinTron]
-[软件作者: https://t.me/tolinke] @tolinke
-[软件频道: https://t.me/tulinjs] @tulinjs
+- 项目地址: https://github.com/tolinke/TulinTron
+- 软件作者: https://t.me/tolinke @tolinke
+- 软件频道: https://t.me/tulinjs @tulinjs
 
 ## 打赏地址
 
