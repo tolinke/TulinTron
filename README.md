@@ -8,9 +8,9 @@
 [![Security](https://img.shields.io/badge/Security-100%25%20Offline-orange.svg)]()
 
 
-![Image text](https://github.com/tolinke/TulinTron/blob/master/doc/01.jpg)
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/01.jpg)
 
-## 📢 v2.0 重大更新：性能跃迁 20%
+## 📢 2026-02-09 v2.0 重大更新：性能跃迁 20%
 
 通过对内核 **Warp 调度** 的重新建模以及 **LOP3.LUT 指令路径** 的深度修剪，最新版本在原有基础上实现了 **20% 以上的算力飞跃**。这是目前全网唯一针对 NVIDIA **Blackwell (50系)** 架构进行深度适配并压榨极限性能的项目。
 
@@ -115,4 +115,4 @@ TRC-20（TRON链）：
 TGQ32UPMgZNFirNtbS9VDGuXai1Lnn8xXX
 ```
 
-![Image text](https://github.com/tolinke/TulinTron/blob/master/doc/02.jpg)
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/02.jpg)
