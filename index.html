@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TulinTron | 全球最快波场靓号生成器 | 3.3 GKey/s 算力巅峰</title>
+    <meta name="description" content="TulinTron：基于 CUDA LOP3 指令级优化，专为 RTX 40/50 系列打造的波场 (TRON) 靓号生成器。100% 离线，安全极速。">
+    <meta name="keywords" content="TRON Address, 波场靓号生成器, TRC20靓号, TRX Address Generator, tulinTron, 靓号工具">
+    
+    <style>
+        :root {
+            --primary-color: #ff0013;
+            --accent-color: #00f2ff;
+            --bg-dark: #0a0a0b;
+            --card-bg: #161618;
+            --text-main: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Microsoft YaHei, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--primary-color), #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .version-tag {
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .hero {
+            padding: 40px 0;
+            text-align: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .highlight-box {
+            display: inline-block;
+            background: rgba(0, 242, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            padding: 15px 30px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .hero .stats {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .btn-group {
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+            margin: 8px;
+        }
+
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: #cc0010; transform: translateY(-2px); }
+        .btn-outline { border: 1px solid #666; color: #ccc; }
+        .btn-outline:hover { border-color: #fff; color: #fff; }
+        .btn-telegram { background-color: #0088cc; color: white; }
+        .btn-telegram:hover { background-color: #0077b5; transform: translateY(-2px); }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 60px 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid #222;
+        }
+
+        .card h3 { color: var(--accent-color); margin-top: 0; }
+
+        .benchmarks { padding: 60px 0; overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+        }
+
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #222; }
+        th { background: #1f1f22; color: var(--primary-color); }
+        .boost-tag { color: #00ff88; font-weight: bold; }
+
+        /* 联系板块 */
+        .contact-section {
+            background: linear-gradient(145deg, #1a1a1c, #111112);
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 60px 0;
+            border: 1px dashed #444;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .contact-link-item {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid #222;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo">TulinTron <span class="version-tag">v2.0 Beta</span></div>
+        <p>基于 CUDA 核心的工业级波场靓号生成解决方案</p>
+    </header>
+
+    <section class="hero">
+        <h1>压榨算力极限，定义靓号产出速度</h1>
+        <div class="highlight-box">
+            <div class="stats">NVIDIA RTX 5090 实测：3,300,000,000 Key/s</div>
+            <p style="margin: 5px 0 0 0; font-size: 0.9rem;">v2.0 内核更新：LOP3 指令级优化，算力提升 20%</p>
+        </div>
+        <div class="btn-group">
+            <a href="https://github.com/tolinke/TulinTron" class="btn btn-primary" target="_blank">GitHub 获取</a>
+            <a href="https://t.me/tulinjs" class="btn btn-telegram" target="_blank">加入 Telegram 频道</a>
+        </div>
+        <p style="margin-top:15px; font-size: 0.9rem; color: #888;">全网靓号源头，支持 8-10 位顶级豹子号批量产出</p>
+    </section>
+
+    <section class="features">
+        <div class="card">
+            <h3>⚡ 指令级优化</h3>
+            <p>针对 RTX 40/50 系列架构，深度融合 LOP3.LUT 汇编级优化，寄存器级压力调优，性能碾压同类工具。</p>
+        </div>
+        <div class="card">
+            <h3>🔒 100% 离线安全</h3>
+            <p>核心算法纯本地运行，不联网、不上传。私钥生成完全基于硬件级随机数，确保资产绝对安全。</p>
+        </div>
+        <div class="card">
+            <h3>🤖 智能分拣系统</h3>
+            <p>自动识别并分类保存豹子号 (A/a)、顺子号 (S/s) 及正则匹配地址，结果直观清晰。</p>
+        </div>
+    </section>
+
+    <section id="benchmarks" class="benchmarks">
+        <h2>算力排行榜 (Benchmarks)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>显卡型号</th>
+                    <th>v1.0 算力</th>
+                    <th>v2.0 最新算力</th>
+                    <th>性能提升</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>NVIDIA RTX 5090</td>
+                    <td>2.7 GKey/s</td>
+                    <td><strong>3.3 GKey/s</strong></td>
+                    <td class="boost-tag">+22.2%</td>
+                </tr>
+                <tr>
+                    <td>NVIDIA RTX 4090</td>
+                    <td>1.8 GKey/s</td>
+                    <td><strong>2.2 GKey/s</strong></td>
+                    <td class="boost-tag">+22.0%</td>
+                </tr>
+                <tr>
+                    <td>NVIDIA RTX 4060 Ti</td>
+                    <td>500 MKey/s</td>
+                    <td><strong>660 MKey/s</strong></td>
+                    <td class="boost-tag">+32.0%</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 联系板块 -->
+    <section class="contact-section">
+        <h2>技术支持与社群交流</h2>
+        <p>如需获取最新版内核、定制特殊靓号算法或报告 Bug，请通过以下方式联系：</p>
+        <div class="contact-links">
+            <a href="https://t.me/tolinke" class="contact-link-item" target="_blank">🚀 软件作者: @tolinke</a>
+            <a href="https://t.me/tulinjs" class="contact-link-item" target="_blank">📢 官方频道: @tulinjs</a>
+            <a href="https://github.com/tolinke/TulinTron" class="contact-link-item" target="_blank">💻 GitHub: tolinke/TulinTron</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 TulinTron 技术团队 | 全球领先的区块链算力工具</p>
+        <p>关键词：TRON Address, 波场靓号生成器, TRC20 Generator, TRX 靓号, 5090 CUDA</p>
+    </footer>
+</div>
+
+</body>
+</html>
