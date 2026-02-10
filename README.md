@@ -14,12 +14,13 @@
 
 目前计算环境已实现8位靓号（8a）秒出，定制地址前缀5后缀5（前5后5）7分钟出结果
 
-> 下面是windows下的计算速度
+> 下面是windows下的6卡4090计算速度118亿每秒
 ![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/05.png)
 
-> linux环境下的计算速度
+> linux环境下的6卡4090计算速度118亿每秒
 ![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/04.png)
 
+> 暴力模式下还可以提升20%的计算速度
 
 ## 📢 2026-02-09 v2.0 重大更新：性能跃迁 20%
 
