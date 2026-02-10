@@ -10,6 +10,17 @@
 
 ![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/01.png)
 
+## 📢 2026-02-10 v2.1 更新支持linux环境
+
+目前计算环境已实现8位靓号（8a）秒出，定制地址前缀5后缀5（前5后5）7分钟出结果
+
+> 下面是windows下的计算速度
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/05.png)
+
+> linux环境下的计算速度
+![Image text](https://github.com/tolinke/TulinTron/blob/main/doc/04.png)
+
+
 ## 📢 2026-02-09 v2.0 重大更新：性能跃迁 20%
 
 通过对内核 **Warp 调度** 的重新建模以及 **LOP3.LUT 指令路径** 的深度修剪，最新版本在原有基础上实现了 **20% 以上的算力飞跃**。这是目前全网唯一针对 NVIDIA **Blackwell (50系)** 架构进行深度适配并压榨极限性能的项目。
