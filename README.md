@@ -1,4 +1,4 @@
-# 🚀 TulinTron TRON波场靓号 CUDA离线版  (v2.0)
+# 🚀 TulinTron TRON波场靓号生成器 CUDA离线版  (v2.0)
 
 **全球最快的波场 (TRON) 靓号生成器 | 基于 CUDA 指令级优化 | 支持 RTX 40/50 系列**
 
