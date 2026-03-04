@@ -180,6 +180,20 @@
 # 同时运行所有模式，32个匹配规则 + 8位豹子 + 9位顺子 + 15位数字
 ./tulinTron -m p.txt -l 8 -s 9 -n 15
 ```
+### 私钥加/解密
+计算出来的私钥支持加密存储
+```bash
+# --decrypt 为解密模式
+# -i 输入文件
+# -o 输出文件
+# -k 加密key (配置了-k 参数后 计算结果会加密返回，没有配置-k参数 不会加密私钥)
+
+# 加密 
+./tulinTron -l 8 -k your_secret_key
+
+# 解密
+./tulinTron --decrypt -i result.txt -o decrypted.txt -k your_secret_key
+```
 
 ### ✨ 核心优势
 - 🔥 32规则并行: 业内唯一支持 32 个前后缀规则同时匹配，速度不降
