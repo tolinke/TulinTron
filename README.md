@@ -71,7 +71,7 @@
 
 ### 系统要求
 - **操作系统**: Windows 10/11 或 Linux (Ubuntu 20.04+)
-- **CUDA 版本**: 12.4 或更高 ([官方下载地址](https://developer.nvidia.com/cuda-downloads))
+- **CUDA 版本**: 12.4 或更高 ([官方下载地址]([https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local)))
 - **显卡架构**: 全系适配 (Maxwell `sm_61` -> Blackwell `sm_90`)
 
 ### 快速开始
