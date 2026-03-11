@@ -71,12 +71,12 @@
 
 ### 系统要求
 - **操作系统**: Windows 10/11 或 Linux (Ubuntu 20.04+)
-- **CUDA 版本**: 12.4 或更高 ([官方下载地址]([https://developer.nvidia.com/cuda-downloads](https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local)))
+- **CUDA 版本**: 12.4 或更高
 - **显卡架构**: 全系适配 (Maxwell `sm_61` -> Blackwell `sm_90`)
 
 ### 快速开始
 
-> 1. 安装 CUDA Toolkit 12.4 或更高 ([官方下载地址]([https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local]))
+> 1. 安装 CUDA Toolkit 12.4 或更高 [官方下载地址]([https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local])
 > 2. 下载最新 Release 包 ([v2.6极速版下载](https://github.com/tolinke/TulinTron/releases/tag/v2.6))
 > 3. 解压后直接在命令行运行
 
