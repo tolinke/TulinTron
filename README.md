@@ -76,7 +76,7 @@
 
 ### 快速开始
 
-> 1. 安装 CUDA Toolkit 12.4+
+> 1. 安装 CUDA Toolkit 12.4 或更高 ([官方下载地址]([https://developer.nvidia.com/cuda-12-4-0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local]))
 > 2. 下载最新 Release 包 ([v2.6极速版下载](https://github.com/tolinke/TulinTron/releases/tag/v2.6))
 > 3. 解压后直接在命令行运行
 
