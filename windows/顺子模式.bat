@@ -1,2 +1,2 @@
-tulinTron -s 6
+tulinTron -s 5
 pause

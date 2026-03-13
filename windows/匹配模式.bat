@@ -1,2 +1,2 @@
-tulinTron -m matching.txt
+tulinTron -m p.txt
 pause
