@@ -3,8 +3,8 @@
 #include <string>
 
 bool CheckLicense() {
-    // 示例：简单的硬件 ID + XOR 校验
+    // Example: simple HWID + XOR verification
     std::string key = skCrypter("YOUR_LICENSE_KEY_HERE").decrypt();
-    // 此处添加你的 HWID 校验逻辑
+    // Add your HWID verification logic here
     return true;
 }
