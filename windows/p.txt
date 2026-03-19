@@ -1,2 +1,2 @@
-T*123456
-T*byToLinke
+TABC*123456
+TTTT*byToLinke
