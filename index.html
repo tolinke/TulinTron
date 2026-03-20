@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TulinTron波场靓号生成器</title>
-    <meta name="description"
-        content="TulinTron 最新版本暴力匹配模式，RTX 5090 算力突破 8.0 GKey/s，RTX 4090 达 6.2 GKey/s。基于 CUDA LOP3 与 PTX 指令级优化，搭载 GLV 同态算法，高效定制前后缀地址，全网最快，100%离线绝对安全。">
+    <title id="page-title">TulinTron波场靓号生成器</title>
+    
+    <meta name="description" id="meta-desc"
+        content="TulinTron 最新版本暴力匹配模式，RTX 5090 算力突破 8.0 GKey/s。基于 CUDA LOP3 与 PTX 指令级优化，全网最快，100%离线绝对安全。">
+        
     <meta name="keywords"
-        content="TRON Address, 波场靓号生成器, TRC20靓号, TulinTron, RTX5090, 暴力匹配, 极速靓号, TRX靓号地址, USDT靓号, 靓号私钥生成, 波场 Telegram 机器人, TRON Telegram Bot定制, 波场监控开发, CUDA加速靓号, 算力优化, 定制前后缀靓号">
+        content="TRON Address, 波场靓号生成器, TRC20靓号, TulinTron, RTX5090, 暴力匹配, TRX靓号地址, USDT靓号, 波场 Telegram 机器人, TRON Telegram Bot, TRON Vanity Address Generator, Custom TRC20 Address, USDT Payment System, Crypto Wallet Generator, GPU Vanity Address, CUDA Acceleration">
 
     <style>
-        /* CSS 变量：支持日夜间模式平滑切换 */
+        /* CSS 保持您原有的极客/Apple风格设计，未做删减 */
         :root[data-theme="dark"] {
             --bg-color: #000000;
             --text-primary: #f5f5f7;
@@ -19,13 +21,9 @@
             --accent-blue: #2997ff;
             --card-bg: rgba(25, 25, 28, 0.1);
             --card-border: rgba(255, 255, 255, 0.1);
-            /* 优化：暗色模式光效大幅增强，高饱和度 */
             --glow-1: rgba(255, 42, 95, 0.15);
-            /* 浓郁粉红 */
             --glow-2: rgba(0, 150, 255, 0.1);
-            /* 鲜艳湛蓝 */
             --glow-blend: plus-lighter;
-            /* 耀眼融合模式 */
             --table-header: rgba(255, 255, 255, 0.05);
             --highlight-text: linear-gradient(90deg, #ffffff, #a1a1a6);
         }
@@ -37,7 +35,6 @@
             --accent-blue: #0066cc;
             --card-bg: rgba(255, 255, 255, 0.3);
             --card-border: rgba(0, 0, 0, 0.1);
-            /* 优化：亮色模式光效更柔和，避免刺眼 */
             --glow-1: rgba(255, 42, 95, 0.15);
             --glow-2: rgba(0, 150, 255, 0.15);
             --glow-blend: normal;
@@ -45,498 +42,75 @@
             --highlight-text: linear-gradient(90deg, #1d1d1f, #86868b);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.47059;
-            letter-spacing: -0.022em;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* ===== 终极动态背景光效 (Dynamic Aurora Glow) ===== */
-        .bg-glow-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            /* 保证在内容下方 */
-            pointer-events: none;
-            overflow: hidden;
-            /* 关键：暗色模式下的闪耀融合效果 */
-            mix-blend-mode: var(--glow-blend);
-        }
-
-        .bg-glow {
-            position: absolute;
-            border-radius: 50%;
-            /* 优化：光斑尺寸大幅增加，模糊更开，显色更明显 */
-            filter: blur(160px);
-            opacity: 0.9;
-        }
-
-        /* 光斑1: 动态漂移巡航 */
-        .glow-1 {
-            width: 80vw;
-            /* 超大尺寸 */
-            height: 80vw;
-            background: var(--glow-1);
-            top: -20%;
-            left: -10%;
-            /* 引入不规则运动动画，慢速，有机 */
-            animation: auroraDrift1 25s ease-in-out infinite;
-        }
-
-        /* 光斑2: 逆向动态巡航 */
-        .glow-2 {
-            width: 90vw;
-            /* 超大尺寸 */
-            height: 90vw;
-            background: var(--glow-2);
-            bottom: -30%;
-            right: -10%;
-            /* 引入反向不规则运动动画，速度稍有错开 */
-            animation: auroraDrift2 30s ease-in-out infinite;
-        }
-
-        /* 暗色模式下让光斑更耀眼，亮色模式下降低不透明度 */
-        :root[data-theme="light"] .bg-glow {
-            opacity: 0.6;
-            filter: blur(180px);
-        }
-
-        /* 背景运动关键帧动画1: 椭圆轨迹+漂移+轻微缩放 */
-        @keyframes auroraDrift1 {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            25% {
-                transform: translate(15vw, 10vh) scale(1.1);
-            }
-
-            50% {
-                transform: translate(5vw, 25vh) scale(0.95);
-            }
-
-            75% {
-                transform: translate(-10vw, 10vh) scale(1.05);
-            }
-
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-        }
-
-        /* 背景运动关键帧动画2: 逆向复杂轨迹+漂移+频率错开 */
-        @keyframes auroraDrift2 {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            30% {
-                transform: translate(-15vw, -10vh) scale(0.9);
-            }
-
-            60% {
-                transform: translate(10vw, -20vh) scale(1.15);
-            }
-
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-        }
-
-        /* ===== 其他样式保持不变 ===== */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-            /* 保证内容在光斑上方 */
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--card-border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-logo {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: -0.015em;
-        }
-
-        .nav-version {
-            background: var(--text-primary);
-            color: var(--bg-color);
-            padding: 4px 12px;
-            border-radius: 980px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .theme-toggle {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-            padding: 8px 16px;
-            border-radius: 980px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-        }
-
-        .hero {
-            text-align: center;
-            padding: 100px 0 60px;
-        }
-
-        .hero h1 {
-            font-size: 68px;
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.015em;
-            margin-bottom: 15px;
-        }
-
-        .hero-subtitle {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-        }
-
-        .text-gradient {
-            background: linear-gradient(90deg, #ff2a5f, #ff8a00, #ff2a5f);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 40px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 980px;
-            font-size: 17px;
-            font-weight: 600;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .btn-primary {
-            background-color: var(--text-primary);
-            color: var(--bg-color);
-        }
-
-        .btn-primary:hover {
-            transform: scale(1.02);
-            opacity: 0.9;
-        }
-
-        .btn-secondary {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--card-border);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--table-header);
-        }
-
-        .highlight-banner {
-            margin: 20px auto 60px;
-            background: linear-gradient(135deg, rgba(41, 151, 255, 0.12), rgba(255, 42, 95, 0.12));
-            border: 1px solid var(--card-border);
-            border-radius: 32px;
-            padding: 60px 40px;
-            text-align: center;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .highlight-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #2997ff, #ff2a5f, #ff8a00, #2997ff);
-            background-size: 200% auto;
-            animation: shine 4s linear infinite;
-        }
-
-        .banner-badge {
-            display: inline-block;
-            background: var(--card-border);
-            padding: 6px 16px;
-            border-radius: 980px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            letter-spacing: 0.05em;
-        }
-
-        .highlight-banner h2 {
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            background: var(--highlight-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .highlight-banner p {
-            font-size: 20px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            padding: 0 0 60px 0;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 35px 25px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--text-secondary);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .feature-card p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.5;
-        }
-
-        .benchmarks-section {
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .benchmarks-section h2 {
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 30px;
-        }
-
-        .table-container {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            margin-bottom: 40px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th,
-        td {
-            padding: 20px 30px;
-            border-bottom: 1px solid var(--card-border);
-            font-size: 17px;
-        }
-
-        th {
-            color: var(--text-secondary);
-            font-weight: 600;
-            background: var(--table-header);
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .boost-text {
-            color: #34c759;
-            font-weight: 600;
-        }
-
-        .huge-number {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .time-tag {
-            background: rgba(255, 42, 95, 0.1);
-            color: #ff2a5f;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .rare-tag {
-            background: rgba(0, 150, 255, 0.1);
-            color: #0096ff;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .cta-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 32px;
-            padding: 80px 40px;
-            text-align: center;
-            margin: 80px 0;
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .cta-section h2 {
-            font-size: 40px;
-            margin-bottom: 16px;
-        }
-
-        .link-item {
-            display: inline-block;
-            color: var(--accent-blue);
-            font-size: 19px;
-            text-decoration: none;
-            margin: 10px 20px;
-            font-weight: 600;
-        }
-
-        .link-item:hover {
-            text-decoration: underline;
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: var(--text-secondary);
-            font-size: 13px;
-            border-top: 1px solid var(--card-border);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-        }
-
-        @media (max-width: 1024px) {
-            .features {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 42px;
-            }
-
-            .highlight-banner {
-                padding: 40px 20px;
-            }
-
-            .highlight-banner h2 {
-                font-size: 30px;
-            }
-
-            .highlight-banner p {
-                font-size: 17px;
-            }
-
-            .features {
-                grid-template-columns: 1fr;
-            }
-
-            th,
-            td {
-                padding: 15px;
-                font-size: 15px;
-            }
-
-            .btn-group {
-                flex-direction: column;
-                padding: 0 20px;
-            }
-
-            .link-item {
-                display: block;
-                margin: 15px 0;
-            }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.47059; letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative; }
+        
+        .bg-glow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; mix-blend-mode: var(--glow-blend); }
+        .bg-glow { position: absolute; border-radius: 50%; filter: blur(160px); opacity: 0.9; }
+        .glow-1 { width: 80vw; height: 80vw; background: var(--glow-1); top: -20%; left: -10%; animation: auroraDrift1 25s ease-in-out infinite; }
+        .glow-2 { width: 90vw; height: 90vw; background: var(--glow-2); bottom: -30%; right: -10%; animation: auroraDrift2 30s ease-in-out infinite; }
+        :root[data-theme="light"] .bg-glow { opacity: 0.6; filter: blur(180px); }
+
+        @keyframes auroraDrift1 { 0% { transform: translate(0, 0) scale(1); } 25% { transform: translate(15vw, 10vh) scale(1.1); } 50% { transform: translate(5vw, 25vh) scale(0.95); } 75% { transform: translate(-10vw, 10vh) scale(1.05); } 100% { transform: translate(0, 0) scale(1); } }
+        @keyframes auroraDrift2 { 0% { transform: translate(0, 0) scale(1); } 30% { transform: translate(-15vw, -10vh) scale(0.9); } 60% { transform: translate(10vw, -20vh) scale(1.15); } 100% { transform: translate(0, 0) scale(1); } }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--card-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .nav-left { display: flex; align-items: center; gap: 12px; }
+        .nav-logo { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; }
+        .nav-version { background: var(--text-primary); color: var(--bg-color); padding: 4px 12px; border-radius: 980px; font-size: 12px; font-weight: 700; }
+        
+        .nav-controls { display: flex; gap: 10px; }
+        .theme-toggle, .lang-toggle { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-primary); padding: 8px 16px; border-radius: 980px; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .theme-toggle:hover, .lang-toggle:hover { transform: scale(1.05); }
+
+        .hero { text-align: center; padding: 100px 0 60px; }
+        .hero h1 { font-size: 68px; font-weight: 700; line-height: 1.05; letter-spacing: -0.015em; margin-bottom: 15px; }
+        .hero-subtitle { font-size: 28px; font-weight: 600; color: var(--text-secondary); margin-bottom: 40px; }
+        .text-gradient { background: linear-gradient(90deg, #ff2a5f, #ff8a00, #ff2a5f); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+        
+        .btn-group { display: flex; justify-content: center; gap: 16px; margin-top: 40px; }
+        .btn { display: inline-block; padding: 14px 28px; border-radius: 980px; font-size: 17px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+        .btn-primary { background-color: var(--text-primary); color: var(--bg-color); }
+        .btn-primary:hover { transform: scale(1.02); opacity: 0.9; }
+        .btn-secondary { background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
+        .btn-secondary:hover { background-color: var(--table-header); }
+
+        .highlight-banner { margin: 20px auto 60px; background: linear-gradient(135deg, rgba(41, 151, 255, 0.12), rgba(255, 42, 95, 0.12)); border: 1px solid var(--card-border); border-radius: 32px; padding: 60px 40px; text-align: center; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
+        .highlight-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #2997ff, #ff2a5f, #ff8a00, #2997ff); background-size: 200% auto; animation: shine 4s linear infinite; }
+        .banner-badge { display: inline-block; background: var(--card-border); padding: 6px 16px; border-radius: 980px; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; letter-spacing: 0.05em; }
+        .highlight-banner h2 { font-size: 42px; font-weight: 700; margin-bottom: 16px; background: var(--highlight-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .highlight-banner p { font-size: 20px; color: var(--text-secondary); line-height: 1.6; max-width: 800px; margin: 0 auto; }
+
+        .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0 0 60px 0; }
+        .feature-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 35px 25px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--text-secondary); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
+        .feature-icon { font-size: 40px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
+        .feature-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+
+        .benchmarks-section { padding: 60px 0; text-align: center; }
+        .benchmarks-section h2 { font-size: 42px; font-weight: 700; margin-bottom: 30px; }
+        .table-container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); margin-bottom: 40px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 20px 30px; border-bottom: 1px solid var(--card-border); font-size: 17px; }
+        th { color: var(--text-secondary); font-weight: 600; background: var(--table-header); }
+        tr:last-child td { border-bottom: none; }
+        .boost-text { color: #34c759; font-weight: 600; }
+        .huge-number { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+        .time-tag { background: rgba(255, 42, 95, 0.1); color: #ff2a5f; padding: 4px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+        .rare-tag { background: rgba(0, 150, 255, 0.1); color: #0096ff; padding: 4px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+
+        .cta-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 80px 40px; text-align: center; margin: 80px 0; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
+        .cta-section h2 { font-size: 40px; margin-bottom: 16px; }
+        .link-item { display: inline-block; color: var(--accent-blue); font-size: 19px; text-decoration: none; margin: 10px 20px; font-weight: 600; }
+        .link-item:hover { text-decoration: underline; }
+
+        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--card-border); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+
+        @media (max-width: 1024px) { .features { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .hero h1 { font-size: 42px; } .highlight-banner { padding: 40px 20px; } .highlight-banner h2 { font-size: 30px; } .highlight-banner p { font-size: 17px; } .features { grid-template-columns: 1fr; } th, td { padding: 15px; font-size: 15px; } .btn-group { flex-direction: column; padding: 0 20px; } .link-item { display: block; margin: 15px 0; } }
     </style>
 </head>
 
@@ -551,100 +125,98 @@
         <nav>
             <div class="nav-left">
                 <div class="nav-logo">TulinTron波场靓号生成器</div>
-                <div class="nav-version">latter</div>
+                <div class="nav-version">v2.8</div>
             </div>
-            <button class="theme-toggle" id="themeBtn">☀️ 切换浅色</button>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeBtn" data-i18n="themeLight">☀️ 切换浅色</button>
+                <button class="lang-toggle" id="langBtn">🌐 English</button>
+            </div>
         </nav>
 
         <section class="hero">
-            <h1>工业级算力，<br><span class="text-gradient">打破物理极限。</span></h1>
-            <div class="hero-subtitle">最新匹配暴力模式 | RTX 5090 实测登顶 8.0 GKey/s</div>
+            <h1><span data-i18n="heroTitle1">工业级算力，</span><br><span class="text-gradient" data-i18n="heroTitle2">打破物理极限。</span></h1>
+            <div class="hero-subtitle" data-i18n="heroSubtitle">最新匹配暴力模式 | RTX 5090 实测登顶 8.0 GKey/s</div>
 
-            <p style="color: var(--text-secondary); font-size: 19px; max-width: 600px; margin: 0 auto;">
+            <p style="color: var(--text-secondary); font-size: 19px; max-width: 600px; margin: 0 auto;" data-i18n="heroDesc">
                 全新暴力匹配引擎，内核深度重构，算力全线暴涨。<br>
                 专为极客与开发者打造的波场生态底层基础设施。
             </p>
 
             <div class="btn-group">
-                <a href="https://github.com/tolinke/TulinTron/releases" class="btn btn-primary"
-                    target="_blank">立即下载</a>
-                <a href="https://github.com/tolinke/TulinTron" class="btn btn-secondary" target="_blank">查看 GitHub
-                    源码</a>
+                <a href="https://github.com/tolinke/TulinTron/releases" class="btn btn-primary" target="_blank" data-i18n="btnDownload">立即下载</a>
+                <a href="https://github.com/tolinke/TulinTron" class="btn btn-secondary" target="_blank" data-i18n="btnGithub">查看 GitHub 源码</a>
             </div>
         </section>
 
         <section class="highlight-banner">
-            <span class="banner-badge">最新v2.8 暴力匹配模式</span>
-            <h2>高效定制前后缀地址</h2>
-            <p>无论是品牌英文缩写、特殊拼音组合，还是指定数字前缀与尾号。<br>独家支持 <strong>32 组规则文件并行匹配</strong>，算力零损耗，极速生成您的专属品牌 TRON 靓号。</p>
+            <span class="banner-badge" data-i18n="bannerBadge">最新v2.8 暴力匹配模式</span>
+            <h2 data-i18n="bannerTitle">高效定制前后缀地址</h2>
+            <p data-i18n="bannerDesc">无论是品牌英文缩写、特殊拼音组合，还是指定数字前缀与尾号。<br>独家支持 <strong>32 组规则文件并行匹配</strong>，算力零损耗，极速生成您的专属品牌 TRON 靓号。</p>
             <div style="display: flex; justify-content: center; gap: 40px; margin-top: 35px; flex-wrap: wrap;">
                 <div style="text-align: center;">
-                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">6200
-                        Mkey/s</div>
-                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;">RTX 4090 暴力模式实测</div>
+                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">6200 Mkey/s</div>
+                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;" data-i18n="card4090">RTX 4090 暴力模式实测</div>
                 </div>
                 <div style="text-align: center;">
-                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">8000
-                        Mkey/s</div>
-                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;">RTX 5090 暴力模式实测</div>
+                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">8000 Mkey/s</div>
+                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;" data-i18n="card5090">RTX 5090 暴力模式实测</div>
                 </div>
             </div>
-            <p style="margin-top: 25px; font-size: 15px; color: var(--text-secondary);">4060 Ti 达 <strong>1700
-                    Mkey/s</strong> · 多卡线性叠加 · 8 卡 4090 总算力近 <strong>50 GKey/s</strong></p>
+            <p style="margin-top: 25px; font-size: 15px; color: var(--text-secondary);" data-i18n="bannerSubtext">4060 Ti 达 <strong>1700 Mkey/s</strong> · 多卡线性叠加 · 8 卡 4090 总算力近 <strong>50 GKey/s</strong></p>
         </section>
 
         <section class="features">
             <div class="feature-card">
                 <div class="feature-icon">💎</div>
-                <h3>GLV 同态加速</h3>
-                <p>在密码学模型层面进行降维打击。近乎无损地检查等价变形裂变点，直接剔除海量冗余计算，打破常规算法瓶颈。</p>
+                <h3 data-i18n="feat1Title">GLV 同态加速</h3>
+                <p data-i18n="feat1Desc">在密码学模型层面进行降维打击。近乎无损地检查等价变形裂变点，直接剔除海量冗余计算，打破常规算法瓶颈。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">⚡️</div>
-                <h3>PTX 汇编重构</h3>
-                <p>深入 Cuda 内核进行指令级手工调优。精确控制 GPU 寄存器分配与 LOP3 逻辑，将硬件算力榨干到极致。</p>
+                <h3 data-i18n="feat2Title">PTX 汇编重构</h3>
+                <p data-i18n="feat2Desc">深入 Cuda 内核进行指令级手工调优。精确控制 GPU 寄存器分配与 LOP3 逻辑，将硬件算力榨干到极致。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🚀</div>
-                <h3>32轨 并行捕捉</h3>
-                <p>匹配、豹子、顺子、纯数字四大模式同开。独家支持最高 32 个前后缀规则并发运算，速度零损耗。</p>
+                <h3 data-i18n="feat3Title">32轨 并行捕捉</h3>
+                <p data-i18n="feat3Desc">匹配、豹子、顺子、纯数字四大模式同开。独家支持最高 32 个前后缀规则并发运算，速度零损耗。</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
-                <h3>物理级安全隔离</h3>
-                <p>100% 离线脱机运行，不触网。采用硬件级 CSPRNG 随机数种子，支持高强度混淆加密落地，捍卫资产安全。</p>
+                <h3 data-i18n="feat4Title">物理级安全隔离</h3>
+                <p data-i18n="feat4Desc">100% 离线脱机运行，不触网。采用硬件级 CSPRNG 随机数种子，支持高强度混淆加密落地，捍卫资产安全。</p>
             </div>
         </section>
 
         <section id="benchmarks" class="benchmarks-section">
-            <h2>算力跃升，超乎想象。</h2>
+            <h2 data-i18n="table1Title">算力跃升，超乎想象。</h2>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>硬件环境</th>
-                            <th>v2.6 算力</th>
-                            <th>v2.8 暴力模式 (最新) 🔥</th>
-                            <th>进化幅度</th>
+                            <th data-i18n="thHardware">硬件环境</th>
+                            <th data-i18n="thV26">v2.6 算力</th>
+                            <th data-i18n="thV28">v2.8 暴力模式 (最新) 🔥</th>
+                            <th data-i18n="thBoost">进化幅度</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>NVIDIA RTX 5090</td>
                             <td>5.5 GKey/s</td>
-                            <td class="huge-number text-gradient">8.0 GKey/s (80亿/秒)</td>
-                            <td class="boost-text">+45% (恐怖级算力)</td>
+                            <td class="huge-number text-gradient" data-i18n="td5090">8.0 GKey/s (80亿/秒)</td>
+                            <td class="boost-text" data-i18n="tdBoost1">+45% (恐怖级算力)</td>
                         </tr>
                         <tr>
                             <td>NVIDIA RTX 4090</td>
                             <td>4.2 GKey/s</td>
-                            <td class="huge-number text-gradient">6.2 GKey/s (62亿/秒)</td>
+                            <td class="huge-number text-gradient" data-i18n="td4090">6.2 GKey/s (62亿/秒)</td>
                             <td class="boost-text">+47%</td>
                         </tr>
                         <tr>
                             <td>NVIDIA RTX 4060 Ti</td>
                             <td>1.2 GKey/s</td>
-                            <td class="huge-number">1.7 GKey/s (17亿/秒)</td>
+                            <td class="huge-number" data-i18n="td4060">1.7 GKey/s (17亿/秒)</td>
                             <td class="boost-text">+41%</td>
                         </tr>
                     </tbody>
@@ -653,44 +225,44 @@
         </section>
 
         <section class="benchmarks-section" style="padding-top: 0;">
-            <h2>终极天花板：9A-10A 产出预估</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 16px;">
+            <h2 data-i18n="table2Title">终极天花板：9A-10A 产出预估</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 16px;" data-i18n="table2Desc">
                 基于单张 RTX 4090 v2.6 算力测算 (不含运气加成)，顶级资源，时间换取价值。
             </p>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
-                            <th>目标等级</th>
-                            <th>匹配类型</th>
-                            <th>预计耗时 (单卡)</th>
-                            <th>稀缺度评估</th>
+                            <th data-i18n="thTarget">目标等级</th>
+                            <th data-i18n="thMatch">匹配类型</th>
+                            <th data-i18n="thTime">预计耗时 (单卡)</th>
+                            <th data-i18n="thRarity">稀缺度评估</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>9A 豹子</strong></td>
-                            <td>任意 9A (如 T...XXXXXXXXX)</td>
-                            <td><span class="time-tag">~ 9 小时</span></td>
-                            <td><span class="rare-tag">百万里挑一</span></td>
+                            <td><strong data-i18n="td9A">9A 豹子</strong></td>
+                            <td data-i18n="td9AAny">任意 9A (如 T...XXXXXXXXX)</td>
+                            <td><span class="time-tag" data-i18n="time9A">~ 9 小时</span></td>
+                            <td><span class="rare-tag" data-i18n="rare1">百万里挑一</span></td>
                         </tr>
                         <tr>
-                            <td><strong>9A 豹子</strong></td>
-                            <td>指定 9A (如 T...888888888)</td>
-                            <td><span class="time-tag">~ 20 天</span></td>
-                            <td><span class="rare-tag">传世收藏级</span></td>
+                            <td><strong data-i18n="td9A2">9A 豹子</strong></td>
+                            <td data-i18n="td9ASpec">指定 9A (如 T...888888888)</td>
+                            <td><span class="time-tag" data-i18n="time20D">~ 20 天</span></td>
+                            <td><span class="rare-tag" data-i18n="rare2">传世收藏级</span></td>
                         </tr>
                         <tr>
-                            <td><strong>10A 巅峰</strong></td>
-                            <td>任意 10A</td>
-                            <td><span class="time-tag">~ 25 天</span></td>
-                            <td><span class="rare-tag">极客尊享</span></td>
+                            <td><strong data-i18n="td10A">10A 巅峰</strong></td>
+                            <td data-i18n="td10AAny">任意 10A</td>
+                            <td><span class="time-tag" data-i18n="time25D">~ 25 天</span></td>
+                            <td><span class="rare-tag" data-i18n="rare3">极客尊享</span></td>
                         </tr>
                         <tr>
-                            <td><strong>10A 巅峰</strong></td>
-                            <td>指定 10A (如 T...8888888888)</td>
-                            <td><span class="time-tag">极难估算 (需算力集群)</span></td>
-                            <td><span class="rare-tag">现象级无价之宝</span></td>
+                            <td><strong data-i18n="td10A2">10A 巅峰</strong></td>
+                            <td data-i18n="td10ASpec">指定 10A (如 T...8888888888)</td>
+                            <td><span class="time-tag" data-i18n="timeInf">极难估算 (需算力集群)</span></td>
+                            <td><span class="rare-tag" data-i18n="rare4">现象级无价之宝</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -698,23 +270,21 @@
         </section>
 
         <section class="cta-section">
-            <h2>万个 8A 顶级靓号，现已全库开源。</h2>
-            <p style="color: var(--text-secondary); font-size: 19px; margin-bottom: 30px;">连续高负载作业产出的稀缺 8A
-                豹子号，面向社区全员免费赠送。<br>并承接 TRON 节点及 Telegram Bot 相关技术交流。</p>
+            <h2 data-i18n="ctaTitle">万个 8A 顶级靓号，现已全库开源。</h2>
+            <p style="color: var(--text-secondary); font-size: 19px; margin-bottom: 30px;" data-i18n="ctaDesc">连续高负载作业产出的稀缺 8A 豹子号，面向社区全员免费赠送。<br>并承接 TRON 节点及 Telegram Bot 相关技术交流。</p>
 
             <div>
-                <a href="https://t.me/tolinke" class="link-item" target="_blank">👨‍💻 领私钥/技术支持：@tolinke</a>
-                <a href="https://t.me/tulintron" class="link-item" target="_blank">💬 技术交流群：@tulintron</a>
-                <a href="https://t.me/tulinjs" class="link-item" target="_blank">📢 官方频道：@tulinjs</a>
+                <a href="https://t.me/tolinke" class="link-item" target="_blank" data-i18n="linkSupport">👨‍💻 领私钥/技术支持：@tolinke</a>
+                <a href="https://t.me/tulintron" class="link-item" target="_blank" data-i18n="linkGroup">💬 技术交流群：@tulintron</a>
+                <a href="https://t.me/tulinjs" class="link-item" target="_blank" data-i18n="linkChannel">📢 官方频道：@tulinjs</a>
             </div>
         </section>
 
         <footer>
-            <p>本工具仅供密码学与性能极限测试交流。生成的私钥遗失不补，高净值账户请务必配置多签环境。</p>
-            <p style="margin-top: 10px;">&copy; 2026 @tolinke & TulinTron 技术团队 保留所有权利。</p>
-            <p style="margin-top: 20px; font-size: 11px; opacity: 0.5;">
-                相关技术探索: TRON Address / 波场钱包靓号 / TRC20 Token / Telegram 波场机器人开发 / TRX 靓号批量生成 / USDT 监控机器人 / 前后缀定制靓号 /
-                GPU加速波场
+            <p data-i18n="footer1">本工具仅供密码学与性能极限测试交流。生成的私钥遗失不补，高净值账户请务必配置多签环境。</p>
+            <p style="margin-top: 10px;" data-i18n="footer2">&copy; 2026 @tolinke & TulinTron 技术团队 保留所有权利。</p>
+            <p style="margin-top: 20px; font-size: 11px; opacity: 0.5;" data-i18n="footerSEO">
+                相关技术探索: TRON Address / 波场钱包靓号 / TRC20 Token / Telegram 波场机器人开发 / TRX 靓号批量生成 / USDT 商户系统 / 前后缀定制靓号 / GPU加速波场
             </p>
         </footer>
     </div>
@@ -723,19 +293,136 @@
         // 日夜间主题切换逻辑
         const themeBtn = document.getElementById('themeBtn');
         const root = document.documentElement;
+        let currentLang = 'zh';
+
+        function updateThemeBtnText() {
+            const isDark = root.getAttribute('data-theme') === 'dark';
+            if (currentLang === 'zh') {
+                themeBtn.textContent = isDark ? '☀️ 切换浅色' : '🌙 切换深色';
+            } else {
+                themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+            }
+        }
 
         themeBtn.addEventListener('click', () => {
             const currentTheme = root.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                root.setAttribute('data-theme', 'light');
-                themeBtn.textContent = '🌙 切换深色';
-            } else {
-                root.setAttribute('data-theme', 'dark');
-                themeBtn.textContent = '☀️ 切换浅色';
+            root.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            updateThemeBtnText();
+        });
+
+        // 多语言字典配置
+        const translations = {
+            zh: {
+                pageTitle: "TulinTron波场靓号生成器",
+                metaDesc: "TulinTron 最新版本暴力匹配模式，RTX 5090 算力突破 8.0 GKey/s。基于 CUDA LOP3 与 PTX 指令级优化，全网最快，100%离线绝对安全。",
+                themeLight: "☀️ 切换浅色",
+                heroTitle1: "工业级算力，",
+                heroTitle2: "打破物理极限。",
+                heroSubtitle: "最新匹配暴力模式 | RTX 5090 实测登顶 8.0 GKey/s",
+                heroDesc: "全新暴力匹配引擎，内核深度重构，算力全线暴涨。<br>专为极客与开发者打造的波场生态底层基础设施。",
+                btnDownload: "立即下载",
+                btnGithub: "查看 GitHub 源码",
+                bannerBadge: "最新v2.8 暴力匹配模式",
+                bannerTitle: "高效定制前后缀地址",
+                bannerDesc: "无论是品牌英文缩写、特殊拼音组合，还是指定数字前缀与尾号。<br>独家支持 <strong>32 组规则文件并行匹配</strong>，算力零损耗，极速生成您的专属品牌 TRON 靓号。",
+                card4090: "RTX 4090 暴力模式实测",
+                card5090: "RTX 5090 暴力模式实测",
+                bannerSubtext: "4060 Ti 达 <strong>1700 Mkey/s</strong> · 多卡线性叠加 · 8 卡 4090 总算力近 <strong>50 GKey/s</strong>",
+                feat1Title: "GLV 同态加速",
+                feat1Desc: "在密码学模型层面进行降维打击。近乎无损地检查等价变形裂变点，直接剔除海量冗余计算，打破常规算法瓶颈。",
+                feat2Title: "PTX 汇编重构",
+                feat2Desc: "深入 Cuda 内核进行指令级手工调优。精确控制 GPU 寄存器分配与 LOP3 逻辑，将硬件算力榨干到极致。",
+                feat3Title: "32轨 并行捕捉",
+                feat3Desc: "匹配、豹子、顺子、纯数字四大模式同开。独家支持最高 32 个前后缀规则并发运算，速度零损耗。",
+                feat4Title: "物理级安全隔离",
+                feat4Desc: "100% 离线脱机运行，不触网。采用硬件级 CSPRNG 随机数种子，支持高强度混淆加密落地，捍卫资产安全。",
+                table1Title: "算力跃升，超乎想象。",
+                thHardware: "硬件环境", thV26: "v2.6 算力", thV28: "v2.8 暴力模式 (最新) 🔥", thBoost: "进化幅度",
+                td5090: "8.0 GKey/s (80亿/秒)", tdBoost1: "+45% (恐怖级算力)",
+                td4090: "6.2 GKey/s (62亿/秒)", td4060: "1.7 GKey/s (17亿/秒)",
+                table2Title: "终极天花板：9A-10A 产出预估",
+                table2Desc: "基于单张 RTX 4090 v2.6 算力测算 (不含运气加成)，顶级资源，时间换取价值。",
+                thTarget: "目标等级", thMatch: "匹配类型", thTime: "预计耗时 (单卡)", thRarity: "稀缺度评估",
+                td9A: "9A 豹子", td9AAny: "任意 9A (如 T...XXXXXXXXX)", time9A: "~ 9 小时", rare1: "百万里挑一",
+                td9A2: "9A 豹子", td9ASpec: "指定 9A (如 T...888888888)", time20D: "~ 20 天", rare2: "传世收藏级",
+                td10A: "10A 巅峰", td10AAny: "任意 10A", time25D: "~ 25 天", rare3: "极客尊享",
+                td10A2: "10A 巅峰", td10ASpec: "指定 10A (如 T...8888888888)", timeInf: "极难估算 (需算力集群)", rare4: "现象级无价之宝",
+                ctaTitle: "万个 8A 顶级靓号，现已全库开源。",
+                ctaDesc: "连续高负载作业产出的稀缺 8A 豹子号，面向社区全员免费赠送。<br>并承接 TRON 节点及 Telegram Bot 相关技术交流。",
+                linkSupport: "👨‍💻 领私钥/技术支持：@tolinke",
+                linkGroup: "💬 技术交流群：@tulintron",
+                linkChannel: "📢 官方频道：@tulinjs",
+                footer1: "本工具仅供密码学与性能极限测试交流。生成的私钥遗失不补，高净值账户请务必配置多签环境。",
+                footer2: "&copy; 2026 @tolinke & TulinTron 技术团队 保留所有权利。",
+                footerSEO: "相关技术探索: TRON Address / 波场钱包靓号 / TRC20 Token / Telegram 波场机器人开发 / TRX 靓号批量生成 / USDT 商户系统 / 前后缀定制靓号 / GPU加速波场"
+            },
+            en: {
+                pageTitle: "TulinTron - TRON Vanity Address Generator",
+                metaDesc: "TulinTron latest brute-force engine. RTX 5090 breaks 8.0 GKey/s. Built with CUDA LOP3 & PTX optimizations. The fastest TRON vanity generator globally, 100% offline & secure.",
+                themeLight: "☀️ Light Mode",
+                heroTitle1: "Industrial Hashrate, ",
+                heroTitle2: "Breaking Limits.",
+                heroSubtitle: "Latest Brute-Force Mode | RTX 5090 Peaks at 8.0 GKey/s",
+                heroDesc: "A completely rebuilt engine with massive hashrate surges.<br>The ultimate TRON infrastructure built for geeks and developers.",
+                btnDownload: "Download Now",
+                btnGithub: "View on GitHub",
+                bannerBadge: "v2.8 Brute-Force Engine",
+                bannerTitle: "Custom Prefix & Suffix Generation",
+                bannerDesc: "Whether it's a brand acronym or specific lucky numbers.<br>Exclusively supporting <strong>32 parallel rule files</strong> with zero hashrate loss to generate your premium TRON address.",
+                card4090: "RTX 4090 Tested Speed",
+                card5090: "RTX 5090 Tested Speed",
+                bannerSubtext: "RTX 4060 Ti hits <strong>1700 Mkey/s</strong> · Multi-GPU scaling · 8x 4090 cluster reaches <strong>~50 GKey/s</strong>",
+                feat1Title: "GLV Homomorphism",
+                feat1Desc: "Cryptographic dimensional strike. Seamlessly checks equivalent deformation points to eliminate redundant calculations and break standard algorithm bottlenecks.",
+                feat2Title: "PTX Assembly Rebuild",
+                feat2Desc: "Deep instruction-level CUDA tuning. Precise control of GPU register allocation and LOP3 logic to squeeze every drop of hardware performance.",
+                feat3Title: "32-Track Parallel",
+                feat3Desc: "Run match, repeating, straight, and pure number modes simultaneously. Supports up to 32 custom rule files without slowing down.",
+                feat4Title: "Physical Isolation",
+                feat4Desc: "100% offline operation. Uses hardware-level CSPRNG seeds with high-strength obfuscation encryption to guarantee asset security.",
+                table1Title: "Hashrate Evolution",
+                thHardware: "Hardware", thV26: "v2.6 Speed", thV28: "v2.8 Brute-Force 🔥", thBoost: "Performance Boost",
+                td5090: "8.0 GKey/s (8 Billion/s)", tdBoost1: "+45% (Monster Tier)",
+                td4090: "6.2 GKey/s (6.2 Billion/s)", td4060: "1.7 GKey/s (1.7 Billion/s)",
+                table2Title: "The Ceiling: 9A-10A Estimations",
+                table2Desc: "Estimations based on a single RTX 4090 (excluding luck multipliers). Top-tier resources converting time to value.",
+                thTarget: "Target Tier", thMatch: "Match Type", thTime: "Est. Time (1 GPU)", thRarity: "Rarity Eval",
+                td9A: "9A Repeating", td9AAny: "Any 9A (e.g., T...XXXXXXXXX)", time9A: "~ 9 Hours", rare1: "1 in a Million",
+                td9A2: "9A Repeating", td9ASpec: "Specific 9A (e.g., T...888888888)", time20D: "~ 20 Days", rare2: "Collector's Item",
+                td10A: "10A Pinnacle", td10AAny: "Any 10A", time25D: "~ 25 Days", rare3: "Geek Exclusive",
+                td10A2: "10A Pinnacle", td10ASpec: "Specific 10A (e.g., T...8888888888)", timeInf: "Requires GPU Cluster", rare4: "Priceless Asset",
+                ctaTitle: "10,000+ Premium 8A Addresses Open Sourced.",
+                ctaDesc: "Rare 8A addresses produced during high-load testing are now free for the community.<br>Also open for discussions on TRON nodes and Telegram Bot development.",
+                linkSupport: "👨‍💻 Claim Keys / Support: @tolinke",
+                linkGroup: "💬 Dev Community: @tulintron",
+                linkChannel: "📢 Official Channel: @tulinjs",
+                footer1: "This tool is for cryptographic testing only. Lost private keys cannot be recovered. High-net-worth accounts must use multi-sig environments.",
+                footer2: "&copy; 2026 @tolinke & TulinTron Dev Team. All rights reserved.",
+                footerSEO: "Tech Exploration: TRON Vanity Address / TRC20 Token / Telegram TRON Bot Dev / Custom Crypto Wallet / USDT Payment System / GPU Acceleration"
             }
+        };
+
+        const langBtn = document.getElementById('langBtn');
+
+        langBtn.addEventListener('click', () => {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            langBtn.textContent = currentLang === 'zh' ? '🌐 English' : '🌐 中文';
+            updateThemeBtnText();
+
+            // 更新所有带有 data-i18n 属性的元素内容
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.innerHTML = translations[currentLang][key]; // 使用 innerHTML 允许插入 <br> 和 <strong> 标签
+                }
+            });
+
+            // 动态更新页面标题和 SEO description
+            document.getElementById('page-title').textContent = translations[currentLang].pageTitle;
+            document.getElementById('meta-desc').setAttribute('content', translations[currentLang].metaDesc);
+            document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
         });
     </script>
 
 </body>
-
 </html>
