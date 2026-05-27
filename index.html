@@ -4,425 +4,718 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">TulinTron波场靓号生成器</title>
-    
+    <title id="page-title">TulinTron | TRX波场TRON定制靓号生成引擎</title>
     <meta name="description" id="meta-desc"
-        content="TulinTron 最新版本暴力匹配模式，RTX 5090 算力突破 8.0 GKey/s。基于 CUDA LOP3 与 PTX 指令级优化，全网最快，100%离线绝对安全。">
-        
+        content="TulinTron V3.1 波场靓号与地址定制引擎。支持单机模式、分布式集群及企业 API。实测单卡算力最高可达 8.0 GKey/s，专注于专属 USDT/TRC20 品牌靓号发掘，100% 离线脱机生成，资产绝对安全。">
     <meta name="keywords"
-        content="TRON Address, 波场靓号生成器, TRC20靓号, TulinTron, RTX5090, 暴力匹配, TRX靓号地址, USDT靓号, 波场 Telegram 机器人, TRON Telegram Bot, TRON Vanity Address Generator, Custom TRC20 Address, USDT Payment System, Crypto Wallet Generator, GPU Vanity Address, CUDA Acceleration">
+        content="TRON Address, 波场靓号, 定制地址, 专属TRON地址, USDT靓号, TRC20定制, 豹子号, 顺子号, TulinTron, 极速生成">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* CSS 保持您原有的极客/Apple风格设计，未做删减 */
-        :root[data-theme="dark"] {
-            --bg-color: #000000;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --accent-blue: #2997ff;
-            --card-bg: rgba(25, 25, 28, 0.1);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --glow-1: rgba(255, 42, 95, 0.15);
-            --glow-2: rgba(0, 150, 255, 0.1);
-            --glow-blend: plus-lighter;
-            --table-header: rgba(255, 255, 255, 0.05);
-            --highlight-text: linear-gradient(90deg, #ffffff, #a1a1a6);
+        :root {
+            --bg-base: #030305;
+            --text-main: #ffffff;
+            --text-muted: #8a8f98;
+            --neon-blue: #0070f3;
+            --neon-red: #ff2a5f;
+            --neon-purple: #7928ca;
+            --neon-cyan: #00ffcc;
+            --glass-bg: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.05);
+            --gradient-text: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            --gradient-brand: linear-gradient(135deg, var(--neon-red) 0%, var(--neon-purple) 100%);
+            --header-bg: rgba(3, 3, 5, 0.6);
         }
 
         :root[data-theme="light"] {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            --text-secondary: #515154;
-            --accent-blue: #0066cc;
-            --card-bg: rgba(255, 255, 255, 0.3);
-            --card-border: rgba(0, 0, 0, 0.1);
-            --glow-1: rgba(255, 42, 95, 0.15);
-            --glow-2: rgba(0, 150, 255, 0.15);
-            --glow-blend: normal;
-            --table-header: rgba(0, 0, 0, 0.05);
-            --highlight-text: linear-gradient(90deg, #1d1d1f, #86868b);
+            --bg-base: #fafafa;
+            --text-main: #111111;
+            --text-muted: #666666;
+            --neon-blue: #0070f3;
+            --neon-red: #e11d48;
+            --neon-purple: #7928ca;
+            --neon-cyan: #00b48a;
+            --glass-bg: rgba(0, 0, 0, 0.03);
+            --glass-border: rgba(0, 0, 0, 0.08);
+            --card-hover: rgba(0, 0, 0, 0.06);
+            --gradient-text: linear-gradient(135deg, #111 0%, #666 100%);
+            --gradient-brand: linear-gradient(135deg, var(--neon-red) 0%, var(--neon-purple) 100%);
+            --header-bg: rgba(250, 250, 250, 0.6);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.47059; letter-spacing: -0.022em; -webkit-font-smoothing: antialiased; overflow-x: hidden; position: relative; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-family: 'Inter', -apple-system, sans-serif; background-color: var(--bg-base); color: var(--text-main); }
+        body { overflow-x: hidden; position: relative; transition: background-color 0.5s ease; }
+
+        /* Deep Galaxy Background */
+        .galaxy-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; background: radial-gradient(circle at 70% 30%, rgba(121, 40, 202, 0.15), transparent 60%), radial-gradient(circle at 20% 80%, rgba(255, 42, 95, 0.08), transparent 50%); }
+        .galaxy-bg::after { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>'); opacity: 0.05; mix-blend-mode: overlay; pointer-events: none;}
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: float 20s infinite alternate ease-in-out; }
+        .orb-1 { width: 45vw; height: 45vw; background: rgba(121, 40, 202, 0.15); top: -20%; right: -10%; }
+        .orb-2 { width: 55vw; height: 55vw; background: rgba(0, 112, 243, 0.1); bottom: -30%; left: -20%; animation-delay: -10s; }
+        :root[data-theme="light"] .orb { opacity: 0.4; filter: blur(120px); }
+        #galaxy-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; mix-blend-mode: screen; opacity: 0.85; pointer-events: none; }
+        :root[data-theme="light"] #galaxy-canvas { mix-blend-mode: multiply; opacity: 0.7; }
+
+        @keyframes float { 0% { transform: translateY(0) scale(1); } 100% { transform: translateY(100px) scale(1.1); } }
+
+        /* Typography */
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .text-gradient { background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .text-brand { background: var(--gradient-brand); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         
-        .bg-glow-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; overflow: hidden; mix-blend-mode: var(--glow-blend); }
-        .bg-glow { position: absolute; border-radius: 50%; filter: blur(160px); opacity: 0.9; }
-        .glow-1 { width: 80vw; height: 80vw; background: var(--glow-1); top: -20%; left: -10%; animation: auroraDrift1 25s ease-in-out infinite; }
-        .glow-2 { width: 90vw; height: 90vw; background: var(--glow-2); bottom: -30%; right: -10%; animation: auroraDrift2 30s ease-in-out infinite; }
-        :root[data-theme="light"] .bg-glow { opacity: 0.6; filter: blur(180px); }
-
-        @keyframes auroraDrift1 { 0% { transform: translate(0, 0) scale(1); } 25% { transform: translate(15vw, 10vh) scale(1.1); } 50% { transform: translate(5vw, 25vh) scale(0.95); } 75% { transform: translate(-10vw, 10vh) scale(1.05); } 100% { transform: translate(0, 0) scale(1); } }
-        @keyframes auroraDrift2 { 0% { transform: translate(0, 0) scale(1); } 30% { transform: translate(-15vw, -10vh) scale(0.9); } 60% { transform: translate(10vw, -20vh) scale(1.15); } 100% { transform: translate(0, 0) scale(1); } }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--card-border); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .nav-left { display: flex; align-items: center; gap: 12px; }
-        .nav-logo { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; }
-        .nav-version { background: var(--text-primary); color: var(--bg-color); padding: 4px 12px; border-radius: 980px; font-size: 12px; font-weight: 700; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 10; }
         
-        .nav-controls { display: flex; gap: 10px; }
-        .theme-toggle, .lang-toggle { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-primary); padding: 8px 16px; border-radius: 980px; font-size: 14px; font-weight: 500; cursor: pointer; }
-        .theme-toggle:hover, .lang-toggle:hover { transform: scale(1.05); }
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; z-index: 100; background: var(--header-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); transition: all 0.3s; }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-main); }
+        .logo-icon { width: 32px; height: 32px; background: var(--gradient-brand); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; box-shadow: 0 0 20px rgba(255, 42, 95, 0.3); }
+        .nav-links { display: flex; gap: 32px; }
+        .nav-link { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; }
+        .nav-link:hover { color: var(--text-main); }
+        .nav-actions { display: flex; gap: 12px; }
+        .btn-icon { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; }
+        .btn-icon:hover { background: var(--card-hover); transform: scale(1.05); }
+        #langBtn { width: auto; min-width: 38px; border-radius: 99px; padding: 0 14px; }
 
-        .hero { text-align: center; padding: 100px 0 60px; }
-        .hero h1 { font-size: 68px; font-weight: 700; line-height: 1.05; letter-spacing: -0.015em; margin-bottom: 15px; }
-        .hero-subtitle { font-size: 28px; font-weight: 600; color: var(--text-secondary); margin-bottom: 40px; }
-        .text-gradient { background: linear-gradient(90deg, #ff2a5f, #ff8a00, #ff2a5f); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; }
-        @keyframes shine { to { background-position: 200% center; } }
+        /* Hero */
+        .hero { padding: 160px 0 100px; text-align: center; position: relative; overflow: hidden; }
         
-        .btn-group { display: flex; justify-content: center; gap: 16px; margin-top: 40px; }
-        .btn { display: inline-block; padding: 14px 28px; border-radius: 980px; font-size: 17px; font-weight: 600; text-decoration: none; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-        .btn-primary { background-color: var(--text-primary); color: var(--bg-color); }
-        .btn-primary:hover { transform: scale(1.02); opacity: 0.9; }
-        .btn-secondary { background-color: var(--card-bg); color: var(--text-primary); border: 1px solid var(--card-border); }
-        .btn-secondary:hover { background-color: var(--table-header); }
+    
+        
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255, 42, 95, 0.1); border: 1px solid rgba(255, 42, 95, 0.2); border-radius: 99px; color: var(--neon-red); font-size: 13px; font-weight: 600; margin-bottom: 24px; position: relative; z-index: 2; box-shadow: 0 0 20px rgba(255, 42, 95, 0.15);}
+        .hero-badge .pulse { width: 8px; height: 8px; background: var(--neon-red); border-radius: 50%; box-shadow: 0 0 10px var(--neon-red); animation: blink 2s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 72px; font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 24px; position: relative; z-index: 2;}
+        .hero p { font-size: 20px; color: var(--text-muted); max-width: 800px; margin: 0 auto 40px; line-height: 1.6; position: relative; z-index: 2;}
+        
+        .btn-group { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; position: relative; z-index: 2;}
+        .btn { padding: 14px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; cursor: pointer; border: none; white-space: nowrap; }
+        .btn-primary { background: var(--text-main); color: var(--bg-base); box-shadow: 0 0 30px rgba(255, 255, 255, 0.1); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(255, 255, 255, 0.2); }
+        :root[data-theme="light"] .btn-primary { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        :root[data-theme="light"] .btn-primary:hover { box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+        
+        .btn-outline { background: var(--glass-bg); color: var(--text-main); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
+        .btn-outline:hover { background: var(--card-hover); border-color: rgba(255, 255, 255, 0.2); }
 
-        .highlight-banner { margin: 20px auto 60px; background: linear-gradient(135deg, rgba(41, 151, 255, 0.12), rgba(255, 42, 95, 0.12)); border: 1px solid var(--card-border); border-radius: 32px; padding: 60px 40px; text-align: center; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
-        .highlight-banner::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #2997ff, #ff2a5f, #ff8a00, #2997ff); background-size: 200% auto; animation: shine 4s linear infinite; }
-        .banner-badge { display: inline-block; background: var(--card-border); padding: 6px 16px; border-radius: 980px; font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 20px; letter-spacing: 0.05em; }
-        .highlight-banner h2 { font-size: 42px; font-weight: 700; margin-bottom: 16px; background: var(--highlight-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .highlight-banner p { font-size: 20px; color: var(--text-secondary); line-height: 1.6; max-width: 800px; margin: 0 auto; }
+        /* Sections General */
+        .section { padding: 100px 0; position: relative; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-tag { font-size: 12px; font-weight: 700; color: var(--neon-red); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 42px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; }
+        .section-desc { font-size: 18px; color: var(--text-muted); max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
-        .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; padding: 0 0 60px 0; }
-        .feature-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; padding: 35px 25px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .feature-card:hover { transform: translateY(-5px); border-color: var(--text-secondary); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); }
-        .feature-icon { font-size: 40px; margin-bottom: 20px; }
-        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; }
-        .feature-card p { font-size: 15px; color: var(--text-secondary); line-height: 1.5; }
+        /* Glass Cards */
+        .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease; position: relative; overflow: hidden; }
+        .glass-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%); opacity: 0; transition: opacity 0.4s; z-index: 1; pointer-events: none; }
+        .glass-card:hover { transform: translateY(-8px); border-color: rgba(255, 255, 255, 0.15); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+        .glass-card:hover::before { opacity: 1; }
+        .glass-card > * { position: relative; z-index: 2; }
 
-        .benchmarks-section { padding: 60px 0; text-align: center; }
-        .benchmarks-section h2 { font-size: 42px; font-weight: 700; margin-bottom: 30px; }
-        .table-container { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); margin-bottom: 40px; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 20px 30px; border-bottom: 1px solid var(--card-border); font-size: 17px; }
-        th { color: var(--text-secondary); font-weight: 600; background: var(--table-header); }
-        tr:last-child td { border-bottom: none; }
-        .boost-text { color: #34c759; font-weight: 600; }
-        .huge-number { font-size: 22px; font-weight: 700; color: var(--text-primary); }
-        .time-tag { background: rgba(255, 42, 95, 0.1); color: #ff2a5f; padding: 4px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
-        .rare-tag { background: rgba(0, 150, 255, 0.1); color: #0096ff; padding: 4px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
+        /* Modes Grid */
+        .modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .mode-icon { width: 56px; height: 56px; border-radius: 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 24px; color: var(--neon-cyan); }
+        .mode-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .mode-card p { color: var(--text-muted); line-height: 1.6; font-size: 15px; }
 
-        .cta-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px; padding: 80px 40px; text-align: center; margin: 80px 0; backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); }
-        .cta-section h2 { font-size: 40px; margin-bottom: 16px; }
-        .link-item { display: inline-block; color: var(--accent-blue); font-size: 19px; text-decoration: none; margin: 10px 20px; font-weight: 600; }
-        .link-item:hover { text-decoration: underline; }
+        /* Table Grid */
+        .table-wrapper { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 24px; overflow: hidden; backdrop-filter: blur(20px); }
+        .custom-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .custom-table th, .custom-table td { padding: 20px 30px; border-bottom: 1px solid var(--glass-border); }
+        .custom-table th { background: rgba(0, 0, 0, 0.2); font-weight: 600; color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; }
+        :root[data-theme="light"] .custom-table th { background: rgba(0,0,0,0.02); }
+        .custom-table tr:last-child td { border-bottom: none; }
+        .custom-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+        .table-highlight { font-size: 20px; font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--text-main); }
+        .badge-green { background: rgba(0, 255, 128, 0.1); color: #00ff80; padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; border: 1px solid rgba(0, 255, 128, 0.2); }
 
-        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--card-border); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+        /* Testimonials */
+        .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .user-info { display: flex; align-items: center; gap: 16px; margin-top: 24px; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-brand); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; color: #fff; }
+        .quote { font-size: 16px; line-height: 1.7; color: var(--text-main); font-style: italic; }
+        .stars { color: #f5a623; font-size: 12px; margin-bottom: 16px; letter-spacing: 2px;}
 
-        @media (max-width: 1024px) { .features { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 768px) { .hero h1 { font-size: 42px; } .highlight-banner { padding: 40px 20px; } .highlight-banner h2 { font-size: 30px; } .highlight-banner p { font-size: 17px; } .features { grid-template-columns: 1fr; } th, td { padding: 15px; font-size: 15px; } .btn-group { flex-direction: column; padding: 0 20px; } .link-item { display: block; margin: 15px 0; } }
+        /* Pricing */
+        .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: center; }
+        .pricing-card { text-align: center; padding: 36px 24px; }
+        .pricing-header { margin-bottom: 30px; }
+        .pricing-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .pricing-price { font-size: 48px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.04em; }
+        .pricing-price span { font-size: 16px; color: var(--text-muted); font-weight: 500; }
+        .pricing-vip { margin-top: 12px; display: inline-block; padding: 6px 16px; border-radius: 99px; background: rgba(0, 112, 243, 0.1); color: var(--neon-blue); font-size: 14px; font-weight: 700; border: 1px solid rgba(0, 112, 243, 0.2); }
+        .pricing-features { list-style: none; margin-bottom: 40px; text-align: left; }
+        .pricing-features li { padding: 10px 0; color: var(--text-muted); font-size: 15px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--glass-border); }
+        .pricing-features li:last-child { border-bottom: none; }
+        .pricing-features li i { color: var(--neon-cyan); }
+        .btn-full { width: 100%; display: block; text-align: center; }
+
+        /* Steps */
+        .steps-container { display: flex; gap: 24px; position: relative; }
+        .step-card { flex: 1; display: flex; flex-direction: column; }
+        .step-num { font-size: 80px; font-weight: 900; font-family: 'Space Grotesk', sans-serif; color: rgba(255,255,255,0.03); position: absolute; right: 20px; top: -10px; pointer-events: none; transition: color 0.4s; }
+        :root[data-theme="light"] .step-num { color: rgba(0,0,0,0.04); }
+        .step-card:hover .step-num { color: rgba(255, 42, 95, 0.08); }
+        .step-icon { width: 48px; height: 48px; background: var(--text-main); color: var(--bg-base); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 24px; }
+        .step-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+
+        /* Tutorials */
+        .tutorial-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 900px; margin: 0 auto; }
+        .tutorial-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 32px; backdrop-filter: blur(10px); display: flex; gap: 24px;}
+        .tutorial-icon { width: 60px; height: 60px; flex-shrink: 0; background: rgba(121, 40, 202, 0.1); border: 1px solid rgba(121, 40, 202, 0.3); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--neon-purple); }
+        .tutorial-content h4 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: var(--text-main); }
+        .tutorial-content p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--glass-border); padding: 50px 0 40px; text-align: center; font-size: 14px; color: var(--text-muted); }
+
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 56px; }
+            .modes-grid, .testimonials-grid, .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+            .pricing-card.premium { transform: scale(1); }
+            .pricing-card.premium:hover { transform: translateY(-10px); }
+            .steps-container { flex-direction: column; }
+            .tutorial-item { flex-direction: column; gap: 16px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 16px; }
+            .modes-grid, .testimonials-grid, .pricing-grid { grid-template-columns: 1fr; }
+            .btn-group { flex-direction: column; align-items: stretch; }
+            .custom-table th, .custom-table td { padding: 15px; font-size: 14px; }
+        }
     </style>
 </head>
 
 <body>
-
-    <div class="bg-glow-container">
-        <div class="bg-glow glow-1"></div>
-        <div class="bg-glow glow-2"></div>
+    <!-- Galaxy Background Elements -->
+    <div class="galaxy-bg">
+        <canvas id="galaxy-canvas"></canvas>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
     </div>
 
-    <div class="container">
-        <nav>
-            <div class="nav-left">
-                <div class="nav-logo">TulinTron波场靓号生成器</div>
-                <div class="nav-version">v2.8</div>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fa-solid fa-bolt"></i></div>
+                <span>TulinTron</span>
+            </a>
+            <div class="nav-links">
+                <a href="#modes" class="nav-link" data-i18n="navModes">运行模式</a>
+                <a href="#benchmarks" class="nav-link" data-i18n="navBench">底核评测</a>
+                <a href="#pricing" class="nav-link" data-i18n="navPricing">购买许可</a>
+                <a href="#getstart" class="nav-link" data-i18n="navGetStart">部署指南</a>
+                <a href="#tutorials" class="nav-link" data-i18n="navTutorials">使用教程</a>
             </div>
-            <div class="nav-controls">
-                <button class="theme-toggle" id="themeBtn" data-i18n="themeLight">☀️ 切换浅色</button>
-                <button class="lang-toggle" id="langBtn">🌐 English</button>
+            <div class="nav-actions">
+                <button class="btn-icon" id="themeBtn" title="Theme"><i class="fa-solid fa-moon"></i></button>
+                <button class="btn-icon" id="langBtn" title="Language"><i class="fa-solid fa-globe"></i> <span style="font-size:12px;font-weight:bold;margin-left:4px">ZH</span></button>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <section class="hero">
-            <h1><span data-i18n="heroTitle1">工业级算力，</span><br><span class="text-gradient" data-i18n="heroTitle2">打破物理极限。</span></h1>
-            <div class="hero-subtitle" data-i18n="heroSubtitle">最新匹配暴力模式 | RTX 5090 实测登顶 8.0 GKey/s</div>
-
-            <p style="color: var(--text-secondary); font-size: 19px; max-width: 600px; margin: 0 auto;" data-i18n="heroDesc">
-                全新暴力匹配引擎，内核深度重构，算力全线暴涨。<br>
-                专为极客与开发者打造的波场生态底层基础设施。
-            </p>
-
+    <!-- Hero Section -->
+    <header class="section hero">
+        <div class="container">
+            <div class="hero-badge">
+                <div class="pulse"></div>
+                <span data-i18n="heroBadge">V3.1 现已全面升级自研底核算法</span>
+            </div>
+            <h1>
+                <span data-i18n="heroTitle1">波场 TRON 定制专属</span><br>
+                <span class="text-brand" data-i18n="heroTitle2">极致靓号生成引擎</span>
+            </h1>
+            <p data-i18n="heroDesc">专注于高价值 TRON 及 USDT 靓号定制。无论是品牌豹子号、顺子号还是包含特殊意义的首尾特定地址...依托完全自主研发的密码学内核与深度硬件调度策略，助您极速锁定数字资产的身份标识。</p>
             <div class="btn-group">
-                <a href="https://github.com/tolinke/TulinTron/releases" class="btn btn-primary" target="_blank" data-i18n="btnDownload">立即下载</a>
-                <a href="https://github.com/tolinke/TulinTron" class="btn btn-secondary" target="_blank" data-i18n="btnGithub">查看 GitHub 源码</a>
+                <a href="https://github.com/kkdoger/TulinTron" target="_blank" class="btn btn-primary">
+                    <i class="fa-brands fa-github"></i> <span data-i18n="btnGithub">GitHub</span>
+                </a>
+                <a href="https://gitlab.com/tolinke/tulintron" target="_blank" class="btn btn-outline">
+                    <i class="fa-brands fa-gitlab"></i> <span data-i18n="btnGitlab">GitLab</span>
+                </a>
+                <a href="https://t.me/tolinke" target="_blank" class="btn btn-outline">
+                    <i class="fa-brands fa-telegram"></i> <span data-i18n="btnTg">Telegram</span>
+                </a>
             </div>
-        </section>
+        </div>
+    </header>
 
-        <section class="highlight-banner">
-            <span class="banner-badge" data-i18n="bannerBadge">最新v2.8 暴力匹配模式</span>
-            <h2 data-i18n="bannerTitle">高效定制前后缀地址</h2>
-            <p data-i18n="bannerDesc">无论是品牌英文缩写、特殊拼音组合，还是指定数字前缀与尾号。<br>独家支持 <strong>32 组规则文件并行匹配</strong>，算力零损耗，极速生成您的专属品牌 TRON 靓号。</p>
-            <div style="display: flex; justify-content: center; gap: 40px; margin-top: 35px; flex-wrap: wrap;">
-                <div style="text-align: center;">
-                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">6200 Mkey/s</div>
-                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;" data-i18n="card4090">RTX 4090 暴力模式实测</div>
+    <!-- Modes Section -->
+    <section id="modes" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="modesTag">Architecture</span>
+                <h2 class="section-title text-gradient" data-i18n="modesTitle">多维定制，覆盖所有产出场景</h2>
+                <p class="section-desc" data-i18n="modesDesc">为了满足个人场外担保、品牌方及 Web3 应用的三大刚性需求，我们定制化打造了全场景的地址发现架构。</p>
+            </div>
+            
+            <div class="modes-grid">
+                <!-- Mode 1 -->
+                <div class="glass-card mode-card">
+                    <div class="mode-icon" style="color: var(--neon-red);"><i class="fa-solid fa-shield-cat"></i></div>
+                    <h3 data-i18n="mode1Title">断网极客绝对孤岛</h3>
+                    <p data-i18n="mode1Desc">资产安全的红线。程序支持 100% 被放置于拔除网线的绝对物理冷机器上运行。通过我们自研的底层重要算法矩阵重构汇编，实测单张 RTX 5090 脱机算力可达难以置信的 8.0 GKey/s。</p>
                 </div>
-                <div style="text-align: center;">
-                    <div style="font-size: 48px; font-weight: 800; letter-spacing: -0.02em;" class="text-gradient">8000 Mkey/s</div>
-                    <div style="font-size: 16px; color: var(--text-secondary); margin-top: 6px;" data-i18n="card5090">RTX 5090 暴力模式实测</div>
+                <!-- Mode 2 -->
+                <div class="glass-card mode-card">
+                    <div class="mode-icon" style="color: var(--neon-purple);"><i class="fa-solid fa-network-wired"></i></div>
+                    <h3 data-i18n="mode2Title">中控集群联合爆破</h3>
+                    <p data-i18n="mode2Desc">突破算力天花板的制胜法宝。通过内建的中控指令台无缝整合跨局域网千卡协同。针对 9A/10A 这类需要算力呈指数级翻倍的超长传世靓号标签进行摧毁级并行搜寻。</p>
+                </div>
+                <!-- Mode 3 -->
+                <div class="glass-card mode-card">
+                    <div class="mode-icon" style="color: var(--neon-cyan);"><i class="fa-solid fa-code"></i></div>
+                    <h3 data-i18n="mode3Title">自动化后端分流钩子</h3>
+                    <p data-i18n="mode3Desc">商户与项目方全景集成。使用传输安全的封闭 JSON 载体，将派发生成任务从内部生态发至专署网关。无缝支持非阻断的回调落库，完成用户认领独特资产的高大上体验建设。</p>
                 </div>
             </div>
-            <p style="margin-top: 25px; font-size: 15px; color: var(--text-secondary);" data-i18n="bannerSubtext">4060 Ti 达 <strong>1700 Mkey/s</strong> · 多卡线性叠加 · 8 卡 4090 总算力近 <strong>50 GKey/s</strong></p>
-        </section>
+        </div>
+    </section>
 
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">💎</div>
-                <h3 data-i18n="feat1Title">GLV 同态加速</h3>
-                <p data-i18n="feat1Desc">在密码学模型层面进行降维打击。近乎无损地检查等价变形裂变点，直接剔除海量冗余计算，打破常规算法瓶颈。</p>
+    <!-- Benchmarks Section -->
+    <section id="benchmarks" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="benchTag">Performance</span>
+                <h2 class="section-title text-gradient" data-i18n="benchTitle">自研内核，算力鸿沟</h2>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡️</div>
-                <h3 data-i18n="feat2Title">PTX 汇编重构</h3>
-                <p data-i18n="feat2Desc">深入 Cuda 内核进行指令级手工调优。精确控制 GPU 寄存器分配与 LOP3 逻辑，将硬件算力榨干到极致。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🚀</div>
-                <h3 data-i18n="feat3Title">32轨 并行捕捉</h3>
-                <p data-i18n="feat3Desc">匹配、豹子、顺子、纯数字四大模式同开。独家支持最高 32 个前后缀规则并发运算，速度零损耗。</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3 data-i18n="feat4Title">物理级安全隔离</h3>
-                <p data-i18n="feat4Desc">100% 离线脱机运行，不触网。采用硬件级 CSPRNG 随机数种子，支持高强度混淆加密落地，捍卫资产安全。</p>
-            </div>
-        </section>
-
-        <section id="benchmarks" class="benchmarks-section">
-            <h2 data-i18n="table1Title">算力跃升，超乎想象。</h2>
-            <div class="table-container">
-                <table>
+            
+            <div class="table-wrapper">
+                <table class="custom-table">
                     <thead>
                         <tr>
-                            <th data-i18n="thHardware">硬件环境</th>
-                            <th data-i18n="thV26">v2.6 算力</th>
-                            <th data-i18n="thV28">v2.8 暴力模式 (最新) 🔥</th>
-                            <th data-i18n="thBoost">进化幅度</th>
+                            <th data-i18n="thHardware">显卡底层环境</th>
+                            <th data-i18n="thV26">常规开源算法算力</th>
+                            <th data-i18n="thV31">V3.1 自研引擎极限算力🔥</th>
+                            <th data-i18n="thBoost">吞吐爆发</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>NVIDIA RTX 5090</td>
                             <td>5.5 GKey/s</td>
-                            <td class="huge-number text-gradient" data-i18n="td5090">8.0 GKey/s (80亿/秒)</td>
-                            <td class="boost-text" data-i18n="tdBoost1">+45% (恐怖级算力)</td>
+                            <td class="table-highlight text-brand" data-i18n="td5090">8.0 GKey/s</td>
+                            <td><span class="badge-green" data-i18n="tdBoost1">+45% 效率断档</span></td>
                         </tr>
                         <tr>
                             <td>NVIDIA RTX 4090</td>
                             <td>4.2 GKey/s</td>
-                            <td class="huge-number text-gradient" data-i18n="td4090">6.2 GKey/s (62亿/秒)</td>
-                            <td class="boost-text">+47%</td>
+                            <td class="table-highlight" data-i18n="td4090">6.2 GKey/s</td>
+                            <td><span class="badge-green">+47%</span></td>
                         </tr>
                         <tr>
                             <td>NVIDIA RTX 4060 Ti</td>
                             <td>1.2 GKey/s</td>
-                            <td class="huge-number" data-i18n="td4060">1.7 GKey/s (17亿/秒)</td>
-                            <td class="boost-text">+41%</td>
+                            <td class="table-highlight" data-i18n="td4060">1.7 GKey/s</td>
+                            <td><span class="badge-green">+41%</span></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </section>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 14px;" data-i18n="benchNote">*注: 计算基准构建在同等标准的专属字符捕捉规则下。深度汇编指令直接穿透层级损耗。</p>
+        </div>
+    </section>
 
-        <section class="benchmarks-section" style="padding-top: 0;">
-            <h2 data-i18n="table2Title">终极天花板：9A-10A 产出预估</h2>
-            <p style="color: var(--text-secondary); margin-bottom: 20px; font-size: 16px;" data-i18n="table2Desc">
-                基于单张 RTX 4090 v2.6 算力测算 (不含运气加成)，顶级资源，时间换取价值。
-            </p>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th data-i18n="thTarget">目标等级</th>
-                            <th data-i18n="thMatch">匹配类型</th>
-                            <th data-i18n="thTime">预计耗时 (单卡)</th>
-                            <th data-i18n="thRarity">稀缺度评估</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong data-i18n="td9A">9A 豹子</strong></td>
-                            <td data-i18n="td9AAny">任意 9A (如 T...XXXXXXXXX)</td>
-                            <td><span class="time-tag" data-i18n="time9A">~ 9 小时</span></td>
-                            <td><span class="rare-tag" data-i18n="rare1">百万里挑一</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong data-i18n="td9A2">9A 豹子</strong></td>
-                            <td data-i18n="td9ASpec">指定 9A (如 T...888888888)</td>
-                            <td><span class="time-tag" data-i18n="time20D">~ 20 天</span></td>
-                            <td><span class="rare-tag" data-i18n="rare2">传世收藏级</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong data-i18n="td10A">10A 巅峰</strong></td>
-                            <td data-i18n="td10AAny">任意 10A</td>
-                            <td><span class="time-tag" data-i18n="time25D">~ 25 天</span></td>
-                            <td><span class="rare-tag" data-i18n="rare3">极客尊享</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong data-i18n="td10A2">10A 巅峰</strong></td>
-                            <td data-i18n="td10ASpec">指定 10A (如 T...8888888888)</td>
-                            <td><span class="time-tag" data-i18n="timeInf">极难估算 (需算力集群)</span></td>
-                            <td><span class="rare-tag" data-i18n="rare4">现象级无价之宝</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+    <!-- Testimonials -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="testiTag">Spotlight</span>
+                <h2 class="section-title text-gradient" data-i18n="testiTitle">高净值靓号买家怎么说</h2>
             </div>
-        </section>
+            
+            <div class="testimonials-grid">
+                <div class="glass-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote" data-i18n="review1">"在一周内就帮我们成功碰撞出了带品牌全拼的专属 USDT 收款地址（T...STAR...），这种具有极高辨识度的地址极大地提升了客户向我们打款的信任感！"</p>
+                    <div class="user-info">
+                        <div class="avatar" style="background: linear-gradient(135deg, #0070f3, #00ffcc)">E</div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 15px;">业务品牌主理人</div>
+                            <div style="font-size: 13px; color: var(--text-muted);" data-i18n="reviewer1">资产与流量管理部门</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote" data-i18n="review2">"跑高额承兑使用的靓号最重要的只有一点：绝对私密。TulinTron 严苛的脱机断网离线生成模式让我们彻底打消了顾虑，私钥本地闭环永远不跨网，安全感瞬间拉满。"</p>
+                    <div class="user-info">
+                        <div class="avatar" style="background: linear-gradient(135deg, #ff2a5f, #f5a623)">O</div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 15px;">大型 OTC 承兑商</div>
+                            <div style="font-size: 13px; color: var(--text-muted);" data-i18n="reviewer2">资深场外交易员</div>
+                        </div>
+                    </div>
+                </div>
 
-        <section class="cta-section">
-            <h2 data-i18n="ctaTitle">万个 8A 顶级靓号，现已全库开源。</h2>
-            <p style="color: var(--text-secondary); font-size: 19px; margin-bottom: 30px;" data-i18n="ctaDesc">连续高负载作业产出的稀缺 8A 豹子号，面向社区全员免费赠送。<br>并承接 TRON 节点及 Telegram Bot 相关技术交流。</p>
-
-            <div>
-                <a href="https://t.me/tolinke" class="link-item" target="_blank" data-i18n="linkSupport">👨‍💻 领私钥/技术支持：@tolinke</a>
-                <a href="https://t.me/tulintron" class="link-item" target="_blank" data-i18n="linkGroup">💬 技术交流群：@tulintron</a>
-                <a href="https://t.me/tulinjs" class="link-item" target="_blank" data-i18n="linkChannel">📢 官方频道：@tulinjs</a>
+                <div class="glass-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="quote" data-i18n="review3">"我们在从事波场极品顶级8A豹子号的分销。用 V3.1 引擎来扫靓号简直是在用工业机床对比手工坊，极端的出号效率让我们直接在二级市场上建立了碾压级别的壁垒。"</p>
+                    <div class="user-info">
+                        <div class="avatar" style="background: linear-gradient(135deg, #7928ca, #ff2a5f)">V</div>
+                        <div>
+                            <div style="font-weight: 600; font-size: 15px;">极品短尾号贩局</div>
+                            <div style="font-size: 13px; color: var(--text-muted);" data-i18n="reviewer3">靓号与通证资源整合渠道</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <footer>
-            <p data-i18n="footer1">本工具仅供密码学与性能极限测试交流。生成的私钥遗失不补，高净值账户请务必配置多签环境。</p>
-            <p style="margin-top: 10px;" data-i18n="footer2">&copy; 2026 @tolinke & TulinTron 技术团队 保留所有权利。</p>
-            <p style="margin-top: 20px; font-size: 11px; opacity: 0.5;" data-i18n="footerSEO">
-                相关技术探索: TRON Address / 波场钱包靓号 / TRC20 Token / Telegram 波场机器人开发 / TRX 靓号批量生成 / USDT 商户系统 / 前后缀定制靓号 / GPU加速波场
-            </p>
-        </footer>
-    </div>
+    <!-- Pricing -->
+    <section id="pricing" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="pricingTag">Pricing</span>
+                <h2 class="section-title text-gradient" data-i18n="pricingTitle">引擎节点生命期许可</h2>
+                <p class="section-desc" data-i18n="pricingDesc">为您的运算硬件注入源头的计算通证支持，彻底释放其暴力生成上限。</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Free Plan -->
+                <div class="glass-card pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title" data-i18n="planFree">免费体验</h3>
+                        <p style="color: var(--text-muted); font-size: 13px;" data-i18n="planFreeDesc">测试本地设备的兼容性与引擎算力阈值测速。</p>
+                    </div>
+                    <div class="pricing-price">0.0 <span>USDT</span></div>
+                    <div class="pricing-vip" data-i18n="planFreeVip" style="background: rgba(0, 255, 204, 0.1); border-color: rgba(0, 255, 204, 0.3); color: var(--neon-cyan); font-size: 13px;">🔰 机器人自动获取</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="featFree1"><i class="fa-solid fa-user-group"></i> 加入官方技术交流群</li>
+                        <li data-i18n="featFree2"><i class="fa-brands fa-telegram"></i> 订阅官方频道</li>
+                        <li data-i18n="featFree3"><i class="fa-solid fa-key"></i> 即可免费获取限时体验授权码</li>
+                    </ul>
+                    <a href="https://t.me/tulinTronbot" target="_blank" class="btn btn-outline btn-full" data-i18n="btnFreeBtn">免费领取</a>
+                </div>
+
+                <!-- Day Plan -->
+                <div class="glass-card pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title" data-i18n="planDay">极客天卡 (1天)</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;" data-i18n="planDayDesc">快速生成简单首尾短号应急之需</p>
+                    </div>
+                    <div class="pricing-price">15.0 <span>USDT</span></div>
+                    <div class="pricing-vip" data-i18n="planDayVip" style="background: rgba(0, 112, 243, 0.1); border-color: rgba(0, 112, 243, 0.3); color: var(--neon-blue);">💎 会员特权价: 8.8 USDT</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="featA"><i class="fa-solid fa-check"></i> 无限制解锁单机极限算力</li>
+                        <li data-i18n="featB"><i class="fa-solid fa-check"></i> 允许并发 32组 地址规则库</li>
+                        <li data-i18n="featC" style="opacity: 0.4"><i class="fa-solid fa-xmark"></i> 期限锁死不支持自行移机</li>
+                    </ul>
+                    <a href="https://t.me/tulinTronbot" target="_blank" class="btn btn-outline btn-full" data-i18n="btnBuy">订阅</a>
+                </div>
+
+                <!-- Week Plan -->
+                <div class="glass-card pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-title" data-i18n="planWeek">火力周卡 (7天)</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;" data-i18n="planWeekDesc">针对中等长度顺子号爆破首选</p>
+                    </div>
+                    <div class="pricing-price">58.0 <span>USDT</span></div>
+                    <div class="pricing-vip" data-i18n="planWeekVip" style="background: rgba(0, 112, 243, 0.1); border-color: rgba(0, 112, 243, 0.3); color: var(--neon-blue);">💎 会员特权价: 28.8 USDT</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="featA"><i class="fa-solid fa-check"></i> 无限制解锁单机极限算力</li>
+                        <li data-i18n="featD"><i class="fa-solid fa-check"></i> 全面解锁 API 商用接口授权</li>
+                        <li data-i18n="featE_1"><i class="fa-solid fa-check"></i> 机器更迭可免费解绑移机(1次)</li>
+                    </ul>
+                    <a href="https://t.me/tulinTronbot" target="_blank" class="btn btn-outline btn-full" data-i18n="btnBuy">订阅</a>
+                </div>
+
+                <!-- Month Plan -->
+                <div class="glass-card pricing-card">
+                    <div class="pricing-header" style="margin-top: 10px;">
+                        <h3 class="pricing-title text-brand" data-i18n="planMonth">战略月卡 (30天)</h3>
+                        <p style="color: var(--text-muted); font-size: 14px;" data-i18n="planMonthDesc">全天候 24H 大规模搜寻 8A 极简号段</p>
+                    </div>
+                    <div class="pricing-price text-brand">188.0 <span>USDT</span></div>
+                    <div class="pricing-vip" data-i18n="planMonthVip" style="background: rgba(255,42,95,0.1); border-color: rgba(255,42,95,0.3); color: var(--neon-red);">💎 会员特权价: 88.0 USDT</div>
+                    <ul class="pricing-features">
+                        <li data-i18n="featA"><i class="fa-solid fa-check"></i> 无限制解锁单机极限算力</li>
+                        <li data-i18n="featD"><i class="fa-solid fa-check"></i> 全面解锁 API 商用接口授权</li>
+                        <li data-i18n="featE"><i class="fa-solid fa-check"></i> 机器更迭可免费解绑移机(2次)</li>
+                    </ul>
+                    <a href="https://t.me/tulinTronbot" target="_blank" class="btn btn-primary btn-full shadow-[0_0_30px_rgba(255,42,95,0.4)]" data-i18n="btnBuyBot">订阅</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Get Started -->
+    <section id="getstart" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag" data-i18n="stepsTag">Implementation</span>
+                <h2 class="section-title text-gradient" data-i18n="stepsTitle">极速部署环境</h2>
+            </div>
+
+            <div class="steps-container">
+                <div class="glass-card step-card">
+                    <div class="step-num">01</div>
+                    <div class="step-icon"><i class="fa-solid fa-download"></i></div>
+                    <h3 class="step-title" data-i18n="step1Title">获取程序与设备机器码</h3>
+                    <p style="color: var(--text-muted); font-size: 15px; line-height: 1.6;" data-i18n="step1Desc">从 GitHub 官方仓库下载免安装核心程序包。解压后在终端启动程序，系统将自动读取您的物理硬件信息并生成一串设备专属的唯一机器特征码（Hash ID）。</p>
+                </div>
+                
+                <div class="glass-card step-card">
+                    <div class="step-num">02</div>
+                    <div class="step-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="step-title" data-i18n="step2Title">自动支付与获取授权</h3>
+                    <p style="color: var(--text-muted); font-size: 15px; line-height: 1.6;" data-i18n="step2Desc">将获取到的机器码发送至官方指定的 Telegram 自动化机器人。根据系统下发的数额完成 USDT 付款对账后，机器人将自动为您下发该设备专属的加密授权密钥。</p>
+                </div>
+
+                <div class="glass-card step-card">
+                    <div class="step-num">03</div>
+                    <div class="step-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3 class="step-title" data-i18n="step3Title">配置密钥与部署启动</h3>
+                    <p style="color: var(--text-muted); font-size: 15px; line-height: 1.6;" data-i18n="step3Desc">将获取到的密钥填入程序运行参数或对应的配置文件中。再次启动引擎即可满速执行并发任务。商业版 API 模块同样以该密钥作为鉴权令牌。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tutorials -->
+    <section id="tutorials" class="section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Guide</span>
+                <h2 class="section-title text-gradient" data-i18n="tutTitle">多面实战使用教程</h2>
+            </div>
+
+            <div class="tutorial-grid">
+                <div class="tutorial-item">
+                    <div class="tutorial-icon"><i class="fa-solid fa-microchip"></i></div>
+                    <div class="tutorial-content">
+                        <h4 data-i18n="tut1Title">第一阶段：运行环境与程序下载</h4>
+                        <p data-i18n="tut1Desc">原生兼容多个主流操作系统体系。请在使用前核对以下环境规范：<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>支持系统</strong>：完全兼容 Windows 及 Linux (Ubuntu/CentOS等)。</li><li><strong>底层依赖</strong>：运行依赖于 NVIDIA 独立显卡，并需安装 <b>CUDA 12.x</b> 工具包。</li><li><strong>获取程序</strong>：请前往官方频道 <a href='https://t.me/tulinjs' target='_blank' style='color:var(--neon-blue);text-decoration:none;'>@tulinjs</a> 下载最新免安装本。</li></ul></p>
+                    </div>
+                </div>
+                <div class="tutorial-item">
+                    <div class="tutorial-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    <div class="tutorial-content">
+                        <h4 data-i18n="tut2Title">第二阶段：多模式启动与精准算号</h4>
+                        <p data-i18n="tut2Desc">系统支持特征值精准抓取，通过直接下达命令行参数控制，且全面支持安全私钥加密：<br><ul style='margin-left:20px;margin-top:8px; display:grid; grid-template-columns: 1fr 1fr; gap: 8px;'><li><code>-s 6</code> 指定顺子号</li><li><code>-sn 5</code> 纯数字顺子</li><li><code>-l 6</code> 指定豹子号</li><li><code>-lf 7</code> 伪豹子号组合</li><li><code>-n 8</code> 纯数字地址</li><li><code>-m txt</code> 调起多规则自定义</li></ul></p>
+                    </div>
+                </div>
+                <div class="tutorial-item">
+                    <div class="tutorial-icon"><i class="fa-solid fa-network-wired"></i></div>
+                    <div class="tutorial-content">
+                        <h4 data-i18n="tut3Title">第三阶段：高级进阶（API与流式集群）</h4>
+                        <p data-i18n="tut3Desc">针对高端企业与大型算力工作室研发的全集成生态场景：<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>API 接口分发</strong>：支持提供 API 给其他服务实时匹配靓号地址，极其完美地无缝对接您的工作室业务流、发卡网或挂机中控系统。</li><li><strong>集群化阵列</strong>：支持多机集群协作连通，允许多台不同节点共同集中算力执行突破极高难度的单一算号任务。</li></ul></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 80px;">
+                <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;" data-i18n="ctaTitle">获取长年累月碰撞沉淀的顶级特权地址私钥库</h3>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://t.me/tulinjs" target="_blank" style="color: var(--neon-blue); text-decoration: none; font-weight: 600;" data-i18n="link1">📢 官方发布前哨：@tulinjs</a>
+                    <a href="https://t.me/tulintron" target="_blank" style="color: var(--neon-purple); text-decoration: none; font-weight: 600;" data-i18n="link2">💬 技术与交流阵营：@tulintron</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p style="margin-bottom: 10px;" data-i18n="footer1">极致性能实验及底层架构研究。数字密钥乃终极权标，请在安全区执行严格保管隔离操作。</p>
+            <p style="margin-bottom: 20px;">&copy; 2026 @tolinke & TulinTron Foundation</p>
+            <p style="font-size: 11px; opacity: 0.3;" data-i18n="footerSEO">TRON Address Generator | 高级地址定制化机能 | TRC20 资产护城河 | 自能化波场私钥分发器 | CUDA Acceleration Core</p>
+        </div>
+    </footer>
 
     <script>
-        // 日夜间主题切换逻辑
         const themeBtn = document.getElementById('themeBtn');
+        const langBtn = document.getElementById('langBtn');
         const root = document.documentElement;
         let currentLang = 'zh';
 
-        function updateThemeBtnText() {
+        function updateThemeIcon() {
             const isDark = root.getAttribute('data-theme') === 'dark';
-            if (currentLang === 'zh') {
-                themeBtn.textContent = isDark ? '☀️ 切换浅色' : '🌙 切换深色';
-            } else {
-                themeBtn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
-            }
+            themeBtn.innerHTML = isDark ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
         }
 
         themeBtn.addEventListener('click', () => {
             const currentTheme = root.getAttribute('data-theme');
             root.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-            updateThemeBtnText();
+            updateThemeIcon();
         });
 
-        // 多语言字典配置
-        const translations = {
+        // I18n Translations Dictionary
+        const i18n = {
             zh: {
-                pageTitle: "TulinTron波场靓号生成器",
-                metaDesc: "TulinTron 最新版本暴力匹配模式，RTX 5090 算力突破 8.0 GKey/s。基于 CUDA LOP3 与 PTX 指令级优化，全网最快，100%离线绝对安全。",
-                themeLight: "☀️ 切换浅色",
-                heroTitle1: "工业级算力，",
-                heroTitle2: "打破物理极限。",
-                heroSubtitle: "最新匹配暴力模式 | RTX 5090 实测登顶 8.0 GKey/s",
-                heroDesc: "全新暴力匹配引擎，内核深度重构，算力全线暴涨。<br>专为极客与开发者打造的波场生态底层基础设施。",
-                btnDownload: "立即下载",
-                btnGithub: "查看 GitHub 源码",
-                bannerBadge: "最新v2.8 暴力匹配模式",
-                bannerTitle: "高效定制前后缀地址",
-                bannerDesc: "无论是品牌英文缩写、特殊拼音组合，还是指定数字前缀与尾号。<br>独家支持 <strong>32 组规则文件并行匹配</strong>，算力零损耗，极速生成您的专属品牌 TRON 靓号。",
-                card4090: "RTX 4090 暴力模式实测",
-                card5090: "RTX 5090 暴力模式实测",
-                bannerSubtext: "4060 Ti 达 <strong>1700 Mkey/s</strong> · 多卡线性叠加 · 8 卡 4090 总算力近 <strong>50 GKey/s</strong>",
-                feat1Title: "GLV 同态加速",
-                feat1Desc: "在密码学模型层面进行降维打击。近乎无损地检查等价变形裂变点，直接剔除海量冗余计算，打破常规算法瓶颈。",
-                feat2Title: "PTX 汇编重构",
-                feat2Desc: "深入 Cuda 内核进行指令级手工调优。精确控制 GPU 寄存器分配与 LOP3 逻辑，将硬件算力榨干到极致。",
-                feat3Title: "32轨 并行捕捉",
-                feat3Desc: "匹配、豹子、顺子、纯数字四大模式同开。独家支持最高 32 个前后缀规则并发运算，速度零损耗。",
-                feat4Title: "物理级安全隔离",
-                feat4Desc: "100% 离线脱机运行，不触网。采用硬件级 CSPRNG 随机数种子，支持高强度混淆加密落地，捍卫资产安全。",
-                table1Title: "算力跃升，超乎想象。",
-                thHardware: "硬件环境", thV26: "v2.6 算力", thV28: "v2.8 暴力模式 (最新) 🔥", thBoost: "进化幅度",
-                td5090: "8.0 GKey/s (80亿/秒)", tdBoost1: "+45% (恐怖级算力)",
-                td4090: "6.2 GKey/s (62亿/秒)", td4060: "1.7 GKey/s (17亿/秒)",
-                table2Title: "终极天花板：9A-10A 产出预估",
-                table2Desc: "基于单张 RTX 4090 v2.6 算力测算 (不含运气加成)，顶级资源，时间换取价值。",
-                thTarget: "目标等级", thMatch: "匹配类型", thTime: "预计耗时 (单卡)", thRarity: "稀缺度评估",
-                td9A: "9A 豹子", td9AAny: "任意 9A (如 T...XXXXXXXXX)", time9A: "~ 9 小时", rare1: "百万里挑一",
-                td9A2: "9A 豹子", td9ASpec: "指定 9A (如 T...888888888)", time20D: "~ 20 天", rare2: "传世收藏级",
-                td10A: "10A 巅峰", td10AAny: "任意 10A", time25D: "~ 25 天", rare3: "极客尊享",
-                td10A2: "10A 巅峰", td10ASpec: "指定 10A (如 T...8888888888)", timeInf: "极难估算 (需算力集群)", rare4: "现象级无价之宝",
-                ctaTitle: "万个 8A 顶级靓号，现已全库开源。",
-                ctaDesc: "连续高负载作业产出的稀缺 8A 豹子号，面向社区全员免费赠送。<br>并承接 TRON 节点及 Telegram Bot 相关技术交流。",
-                linkSupport: "👨‍💻 领私钥/技术支持：@tolinke",
-                linkGroup: "💬 技术交流群：@tulintron",
-                linkChannel: "📢 官方频道：@tulinjs",
-                footer1: "本工具仅供密码学与性能极限测试交流。生成的私钥遗失不补，高净值账户请务必配置多签环境。",
-                footer2: "&copy; 2026 @tolinke & TulinTron 技术团队 保留所有权利。",
-                footerSEO: "相关技术探索: TRON Address / 波场钱包靓号 / TRC20 Token / Telegram 波场机器人开发 / TRX 靓号批量生成 / USDT 商户系统 / 前后缀定制靓号 / GPU加速波场"
+                navModes: "运行模式", navBench: "底核评测", navPricing: "购买许可", navGetStart: "部署指南", navTutorials: "使用教程",
+                heroBadge: "V3.1 现已全面升级自研底核算法",
+                heroTitle1: "波场 TRON 定制专属", heroTitle2: "极致靓号生成引擎",
+                heroDesc: "专注于高价值 TRON 及 USDT 靓号定制。无论是品牌豹子号、顺子号还是包含特殊意义的首尾特定地址...依托完全自主研发的密码学内核与深度硬件调度策略，助您极速锁定数字资产的身份标识。",
+                btnGithub: "GitHub", btnGitlab: "GitLab", btnTg: "Telegram",
+                modesTag: "Architecture", modesTitle: "多维定制，覆盖所有产出场景", modesDesc: "为了满足个人场外担保、品牌方及 Web3 应用的三大刚性需求，我们定制化打造了全场景的地址发现架构。",
+                mode1Title: "断网极客绝对孤岛", mode1Desc: "资产安全的红线。程序支持 100% 被放置于拔除网线的绝对物理冷机器上运行。通过我们自研的底层重要算法矩阵重构汇编，实测单张超级显卡脱机算力可达难以置信的 8.0 GKey/s。",
+                mode2Title: "中控集群联合爆破", mode2Desc: "突破算力天花板的制胜法宝。通过内建的中控指令台无缝整合跨局域网千卡协同。针对 9A/10A 这类需要算力呈指数级翻倍的超强特征靓号标识进行摧毁级并行搜寻。",
+                mode3Title: "自动化后端分流钩子", mode3Desc: "商户与项目方全景集成。使用传输安全的封闭 JSON 载体，将派发生成任务从内部生态发至专署网关。无缝支持非阻断的回调落库，完成用户认领独特资产的高大上体验建设。",
+                benchTag: "Performance", benchTitle: "自研内核，算力鸿沟",
+                thHardware: "硬件底层环境", thV26: "原开源标杆引擎算力", thV31: "V3.1 极核引擎极限吞吐🔥", thBoost: "代代相传飞跃",
+                td5090: "8.0 GKey/s", tdBoost1: "+45% 效率断档", td4090: "6.2 GKey/s", td4060: "1.7 GKey/s",
+                benchNote: "*注: 计算指标构筑在相同复杂维度的探针捕获测算标准之上。全系底层指令深入穿孔直接磨平外围软封装耗损。",
+                testiTag: "Spotlight", testiTitle: "高净值靓号买家怎么说",
+                review1: "\"在一周内就帮我们成功碰撞出了带品牌全拼的专属 USDT 收款地址（T...STAR...），这具有极高辨识度的地址极大地提升了客户向我们打款的信任感！\"", reviewer1: "加密品牌 资产与流量运作人",
+                review2: "\"跑高账承兑使用的靓号最重要的只有一点：绝对防身。严苛的脱机断网离线架构让我们彻底放任大胆挂局，私钥数据锁死物理硬盘彻底封闭流出端口。\"", reviewer2: "规模大鳄级 OTC 商事承兑商",
+                review3: "\"我们在从事波场极品顶级8A豹子号的分销。用 V3.1 引擎来扫靓号简直是在用工业车刀降维碾坊手工局，极端的出号效率让我们直接在二级市场上建立了碾压级别的壁垒。\"", reviewer3: "稀缺数字标签及短尾号资源倒卖人",
+                pricingTag: "Licensing", pricingTitle: "引擎节点生命期许可", pricingDesc: "为您的运算算力硬件开启永动限制之锁。任何档位全面包含所有模块使用许可。",
+                planFree: "免费体验", planFreeDesc: "验证测算环境与最高测速", planFreeVip: "🔰 群联系客服自动下发", btnFreeBtn: "免费体验",
+                planDay: "特供日卡 (24h)", planDayDesc: "一次性体验小批量定制地址极速产出之战", planDayVip: "💎 专为特权会员特价: 8.8 USDT",
+                planWeek: "中继周卡 (7 Days)", planWeekDesc: "中层极客圈首选持久运行周期。", planWeekVip: "💎 专为特权会员特价: 28.8 USDT",
+                planMonth: "压轴月卡 (30 Days)", planMonthDesc: "顶级机构大集群全天候战略常驻", planMonthVip: "💎 专为特权会员特价: 88.0 USDT", planBadge: "矩阵全网扫号首发引荐",
+                featA: "无限制解锁单机完全顶头算力输出界限", featB: "开放极宽的 32 列平行匹配筛检", featC: "期限封锁限制不授予自助调换解绑", featD: "完全开放企业商户端所有 API 及互联许可", featE: "设备硬件重构后可豁免转移凭证(免费二次)", featE_1: "设备硬件重构后可豁免转移凭证(免费单次)",
+                featFree1: "加入官方技术交流群", featFree2: "订阅官方频道", featFree3: "满足两项指标即可获取",
+                btnBuy: "订阅", btnBuyBot: "订阅",
+                stepsTag: "Implementation Roadmap", stepsTitle: "极简入营布置三板斧",
+                step1Title: "获取程序与设备机器码", step1Desc: "从 GitHub 官方仓库下载免安装核心程序包。解压后在终端启动程序，系统将自动读取您的物理硬件信息并生成一串设备专属的唯一机器特征码（Hash ID）。",
+                step2Title: "自动支付与获取授权", step2Desc: "将获取到的机器码发送至官方指定的 Telegram 自动化机器人。根据系统下发的数额完成 USDT 付款对账后，机器人将自动为您下发该设备专属的加密授权密钥。",
+                step3Title: "配置密钥与部署启动", step3Desc: "将获取到的密钥填入程序运行参数或对应的配置文件中。再次启动引擎即可满速执行并发任务。商业版 API 模块同样以该密钥作为鉴权令牌。",
+                tutTitle: "多面实战使用教程",
+                tut1Title: "第一阶段：运行环境与程序下载",
+                tut1Desc: "原生兼容多个主流操作系统体系。请在使用前核对以下环境规范：<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>支持系统</strong>：完全兼容 Windows 及 Linux (Ubuntu/CentOS等)。</li><li><strong>底层依赖</strong>：运行依赖于 NVIDIA 独立显卡，并需安装 <b>CUDA 12.x</b> 工具包。</li><li><strong>获取程序</strong>：请前往官方频道 <a href='https://t.me/tulinjs' target='_blank' style='color:var(--neon-blue);text-decoration:none;'>@tulinjs</a> 下载最新免安装本。</li></ul>",
+                tut2Title: "第二阶段：多模式启动与精准算号",
+                tut2Desc: "系统支持特征值精准抓取，通过直接下达命令行参数控制，且全面支持安全私钥加密：<br><ul style='margin-left:20px;margin-top:8px; display:grid; grid-template-columns: 1fr 1fr; gap: 8px;'><li><code>-s 6</code> 指定顺子号</li><li><code>-sn 5</code> 纯数字顺子</li><li><code>-l 6</code> 指定豹子号</li><li><code>-lf 7</code> 伪豹子号组合</li><li><code>-n 8</code> 纯数字地址</li><li><code>-m txt</code> 调起多规则自定义</li></ul>",
+                tut3Title: "第三阶段：高级进阶（API与流式集群）",
+                tut3Desc: "针对高端企业与大型算力工作室研发的全集成生态场景：<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>API 接口分发</strong>：支持提供 API 给其他服务实时匹配靓号地址，极其完美地无缝对接您的工作室业务流、发卡网或挂机中控系统。</li><li><strong>集群化阵列</strong>：支持多机集群协作连通，允许多台不同节点共同集中算力执行突破极高难度的单一算号任务。</li></ul>",
+                ctaTitle: "海量长期碰撞沉积下绝世的顶级极品波场数字标签已被释出",
+                link1: "📢 全球同步推送节点：@tulinjs", link2: "💬 开发极客阵地：@tulintron",
+                footer1: "深潜底核性能与加密逻辑研究应用之最。控制数字权柄唯一真钥等同完全独霸资产归宿权。巨富账户必请套用分离且冗余的硬件门限层防患物理侵犯。",
+                footerSEO: "Tech Index: 定制专属波场靓号 / 高端资产自保地址 / Web3 应用流水定制工具 / 去中心化钱包地址管理生成架构 / CUDA 12.4"
             },
             en: {
-                pageTitle: "TulinTron - TRON Vanity Address Generator",
-                metaDesc: "TulinTron latest brute-force engine. RTX 5090 breaks 8.0 GKey/s. Built with CUDA LOP3 & PTX optimizations. The fastest TRON vanity generator globally, 100% offline & secure.",
-                themeLight: "☀️ Light Mode",
-                heroTitle1: "Industrial Hashrate, ",
-                heroTitle2: "Breaking Limits.",
-                heroSubtitle: "Latest Brute-Force Mode | RTX 5090 Peaks at 8.0 GKey/s",
-                heroDesc: "A completely rebuilt engine with massive hashrate surges.<br>The ultimate TRON infrastructure built for geeks and developers.",
-                btnDownload: "Download Now",
-                btnGithub: "View on GitHub",
-                bannerBadge: "v2.8 Brute-Force Engine",
-                bannerTitle: "Custom Prefix & Suffix Generation",
-                bannerDesc: "Whether it's a brand acronym or specific lucky numbers.<br>Exclusively supporting <strong>32 parallel rule files</strong> with zero hashrate loss to generate your premium TRON address.",
-                card4090: "RTX 4090 Tested Speed",
-                card5090: "RTX 5090 Tested Speed",
-                bannerSubtext: "RTX 4060 Ti hits <strong>1700 Mkey/s</strong> · Multi-GPU scaling · 8x 4090 cluster reaches <strong>~50 GKey/s</strong>",
-                feat1Title: "GLV Homomorphism",
-                feat1Desc: "Cryptographic dimensional strike. Seamlessly checks equivalent deformation points to eliminate redundant calculations and break standard algorithm bottlenecks.",
-                feat2Title: "PTX Assembly Rebuild",
-                feat2Desc: "Deep instruction-level CUDA tuning. Precise control of GPU register allocation and LOP3 logic to squeeze every drop of hardware performance.",
-                feat3Title: "32-Track Parallel",
-                feat3Desc: "Run match, repeating, straight, and pure number modes simultaneously. Supports up to 32 custom rule files without slowing down.",
-                feat4Title: "Physical Isolation",
-                feat4Desc: "100% offline operation. Uses hardware-level CSPRNG seeds with high-strength obfuscation encryption to guarantee asset security.",
-                table1Title: "Hashrate Evolution",
-                thHardware: "Hardware", thV26: "v2.6 Speed", thV28: "v2.8 Brute-Force 🔥", thBoost: "Performance Boost",
-                td5090: "8.0 GKey/s (8 Billion/s)", tdBoost1: "+45% (Monster Tier)",
-                td4090: "6.2 GKey/s (6.2 Billion/s)", td4060: "1.7 GKey/s (1.7 Billion/s)",
-                table2Title: "The Ceiling: 9A-10A Estimations",
-                table2Desc: "Estimations based on a single RTX 4090 (excluding luck multipliers). Top-tier resources converting time to value.",
-                thTarget: "Target Tier", thMatch: "Match Type", thTime: "Est. Time (1 GPU)", thRarity: "Rarity Eval",
-                td9A: "9A Repeating", td9AAny: "Any 9A (e.g., T...XXXXXXXXX)", time9A: "~ 9 Hours", rare1: "1 in a Million",
-                td9A2: "9A Repeating", td9ASpec: "Specific 9A (e.g., T...888888888)", time20D: "~ 20 Days", rare2: "Collector's Item",
-                td10A: "10A Pinnacle", td10AAny: "Any 10A", time25D: "~ 25 Days", rare3: "Geek Exclusive",
-                td10A2: "10A Pinnacle", td10ASpec: "Specific 10A (e.g., T...8888888888)", timeInf: "Requires GPU Cluster", rare4: "Priceless Asset",
-                ctaTitle: "10,000+ Premium 8A Addresses Open Sourced.",
-                ctaDesc: "Rare 8A addresses produced during high-load testing are now free for the community.<br>Also open for discussions on TRON nodes and Telegram Bot development.",
-                linkSupport: "👨‍💻 Claim Keys / Support: @tolinke",
-                linkGroup: "💬 Dev Community: @tulintron",
-                linkChannel: "📢 Official Channel: @tulinjs",
-                footer1: "This tool is for cryptographic testing only. Lost private keys cannot be recovered. High-net-worth accounts must use multi-sig environments.",
-                footer2: "&copy; 2026 @tolinke & TulinTron Dev Team. All rights reserved.",
-                footerSEO: "Tech Exploration: TRON Vanity Address / TRC20 Token / Telegram TRON Bot Dev / Custom Crypto Wallet / USDT Payment System / GPU Acceleration"
+                navModes: "Modes", navBench: "Benchmarks", navPricing: "Licenses", navGetStart: "Integration", navTutorials: "Tutorials",
+                heroBadge: "V3.1 Now Fueled By Exclusive Proprietary Algorithms",
+                heroTitle1: "TRON Vanity Address", heroTitle2: "Supreme Generation Engine",
+                heroDesc: "Focusing heavily on customizing top-tier TRC20/USDT identifier tags and legendary repetitive patterns. Powered by a highly protected self-developed cryptographic core and aggressive hardware allocations, granting you absolute rights instantly lock down custom premium digital labels.",
+                btnGithub: "GitHub", btnGitlab: "GitLab", btnTg: "Telegram",
+                modesTag: "Architecture", modesTitle: "Universal Capturing Environments", modesDesc: "From strictly isolated solo runners to enterprise API incorporations, discovering dedicated vanity identifiers across every tier of necessities.",
+                mode1Title: "Air-Gapped Absolute Island", mode1Desc: "The prime baseline for safeguarding assets. 100% offline isolation supported. Unshackled from all network hooks entirely, with proprietary core mechanisms recompiled from bare metal rendering an insane 8.0 Gkey/s throughput on independent RTX ultimate nodes.",
+                mode2Title: "Clustered Bombardment Sync", mode2Desc: "Breaking single-point restraints. Integrated Nexus masterboard effortlessly consolidates hundreds of miscellaneous auxiliary compute machines to concurrently sweep extremely long rare repetitive 9A/10A vanity identifiers.",
+                mode3Title: "Automated Backend Bridges", mode3Desc: "Tailor-made for Dapp ecosystems and merchants. Secure RESTful JSON transmission of tasks directly invoking the computational core. Fills external pipelines with asynchronous webhook returns handling seamless user-defined address customization pipelines.",
+                benchTag: "Performance", benchTitle: "Proprietary Core: The Hash Gap",
+                thHardware: "Core Hardware Unit", thV26: "Conventional Open-Source Standards", thV31: "V3.1 Proprietary Zenith Limit🔥", thBoost: "Throughput Leap",
+                td5090: "8.0 GKey/s", tdBoost1: "+45% Efficiency Shatter", td4090: "6.2 GKey/s", td4060: "1.7 GKey/s",
+                benchNote: "*Note: Benchmark metrics derive from identical dimensional complexity sweeps, profoundly optimized at instruction intervals penetrating all surface-level bloatware impedance.",
+                testiTag: "Spotlight", testiTitle: "Insights From High-Net-Worth Buyers",
+                review1: "\"We managed to roll out dedicated USDT receiving addresses matching precisely our trademark full spellings (T...STAR...) in less than a week. The recognizable identifiers profoundly boosted settlement trusts among our institutional clients!\"", reviewer1: "Crypto Brand Flow Strategist",
+                review2: "\"There is exactly one immutable requirement when acquiring high-stake capital addresses: Total Offline Creation. The strict physical containment ensures private seeds remained strictly boxed locally forever. Security paramounts successfully fulfilled.\"", reviewer2: "Prominent OTC Merchant Desk",
+                review3: "\"Distributing premier 8A vanity chains is our daily routine. Deploying the V3.1 engine to sweep labels felt like applying modern industrial precision tooling against hand-crafted workshops. Outrageous efficiencies crushing immediate competition layers.\"", reviewer3: "Vanity Reseller Resource Channel",
+                pricingTag: "Licensing", pricingTitle: "Computational Lifecycle Keyings", pricingDesc: "Ignite the ultimate generation bounds for your calculation armatures. Any tier is profoundly compatible encompassing all operative modes.",
+                planFree: "Evaluation Pass", planFreeDesc: "Trace environment testing", planFreeVip: "🔰 DM Admins casually", btnFreeBtn: "Request Trial",
+                planDay: "Geek Daily Pass (24h)", planDayDesc: "Ideal fast-paced bursts for procuring rapid minimal vanity patterns.", planDayVip: "💎 Premium Affiliates Rate: 8.8 USDT",
+                planWeek: "Continuous 7-Day Cycle", planWeekDesc: "Mainstay continuous operations for deep mining sessions.", planWeekVip: "💎 Premium Affiliates Rate: 28.8 USDT",
+                planMonth: "Vanguard 30-Day Siege", planMonthDesc: "Continuous strategic allocation for top echelon enterprise clusters.", planMonthVip: "💎 Premium Affiliates Rate: 88.0 USDT", planBadge: "Mainline Endorsements",
+                featA: "Unbind absolute pinnacle solitary computation metrics", featB: "Engage immensely parallel sorting encompassing up to 32 rule vectors", featC: "Rigidly tied, device swaps unauthorized within current key span", featD: "Fully clears all Enterprise API commercial routing & linking tokens", featE: "Permits complimentary authorization transfer upon hardware rebuilds (2 slots)", featE_1: "Permits complimentary authorization transfer upon hardware rebuilds (1 slot)",
+                featFree1: "Join our official interactive chat group", featFree2: "Subscribe to announcement distribution channel", featFree3: "Claim complimentary evaluation trial keys instantly",
+                btnBuy: "Activate", btnBuyBot: "Activate",
+                stepsTag: "Implementation Roadmap", stepsTitle: "Three-Phase Immediate Deployment",
+                step1Title: "Download & Device ID Generation", step1Desc: "Download the portable executing package from our official GitHub repository. Upon launching the binary in your terminal, the system will automatically scan your hardware to generate a unique Machine Hash ID.",
+                step2Title: "Automated Payment & Licensing", step2Desc: "Forward the generated Hash ID to the official automated Telegram Bot. After completing the exact USDT payment per the bot's instructions, it will automatically issue your encrypted authorization license key.",
+                step3Title: "Deploy License & Execute", step3Desc: "Inject the generated license key into your execution parameters or local configuration file. Reboot the engine to unlock maximum calculation throughput. For API enterprise usages, utilize this same key as the standard bearer token.",
+                tutTitle: "Advanced Operational Methodologies",
+                tut1Title: "Step 1: Environment & Operations Download",
+                tut1Desc: "Natively cross-platform capable. Please verify the following prerequisites:<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>Supported OS</strong>: Windows & mainstream Linux (Ubuntu/CentOS).</li><li><strong>GPU Dependency</strong>: NVIDIA Dedicated GPUs mapped with <b>CUDA 12.x</b>.</li><li><strong>Official Release</strong>: Always fetch the latest builds securely via the official channel <a href='https://t.me/tulinjs' target='_blank' style='color:var(--neon-blue);text-decoration:none;'>@tulinjs</a>.</li></ul>",
+                tut2Title: "Step 2: Multi-Mode Tracing Algorithms",
+                tut2Desc: "Executes precise vanity matchings via pure CLI arguments with optional private key encryptions:<br><ul style='margin-left:20px;margin-top:8px; display:grid; grid-template-columns: 1fr 1fr; gap: 8px;'><li><code>-s 6</code> Straight Pattern</li><li><code>-sn 5</code> Numeral Straight</li><li><code>-l 6</code> Leopard Pattern</li><li><code>-lf 7</code> Pseudo-Leopard</li><li><code>-n 8</code> Pure Numbers</li><li><code>-m txt</code> Custom Rulesets</li></ul>",
+                tut3Title: "Step 3: Advanced Architectures (API & Clusters)",
+                tut3Desc: "Aggressive pipelines scaling specifically geared for high-end enterprise workflows:<br><ul style='margin-left:20px;margin-top:8px;'><li><strong>API Ecosystem</strong>: Deliver APIs directly to microservices validating vanity identifiers in real-time, flawlessly integrating with external shop webhooks, auto-card sales, or dashboard managers.</li><li><strong>Clusters</strong>: Assemble multi-rig hives (Master protocols) joining scattered hardware nodes altogether pursuing shared supreme-difficulty addresses continuously.</li></ul>",
+                ctaTitle: "Decades Of CumULATIVELY Swept Astounding Premium TRON Database Now Relayed Intact",
+                link1: "📢 Global Syndicate Operations: @tulinjs", link2: "💬 Hardcore Developer Council: @tulintron",
+                footer1: "Ultimate boundary testing of extreme encryption logical structures. Digital seeds govern total supremacy of attached capital limits. High equity institutions MUST apply heavily segregated physical redundancy routines rejecting all breach potentials.",
+                footerSEO: "Search Tags: Custom TRON Address Generator / High Sec Offline Seeds / Enterprise Wallets Routing / Automated Webhook / CUDA 12.4 Runtime Limits"
             }
         };
 
-        const langBtn = document.getElementById('langBtn');
-
         langBtn.addEventListener('click', () => {
             currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            langBtn.textContent = currentLang === 'zh' ? '🌐 English' : '🌐 中文';
-            updateThemeBtnText();
-
-            // 更新所有带有 data-i18n 属性的元素内容
+            langBtn.innerHTML = currentLang === 'zh' ? '<i class="fa-solid fa-globe"></i> <span style="font-size:12px;font-weight:bold;margin-left:4px">ZH</span>' : '<i class="fa-solid fa-globe"></i> <span style="font-size:12px;font-weight:bold;margin-left:4px">EN</span>';
+            
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (translations[currentLang][key]) {
-                    el.innerHTML = translations[currentLang][key]; // 使用 innerHTML 允许插入 <br> 和 <strong> 标签
+                if (i18n[currentLang][key]) {
+                    el.innerHTML = i18n[currentLang][key];
                 }
             });
 
-            // 动态更新页面标题和 SEO description
-            document.getElementById('page-title').textContent = translations[currentLang].pageTitle;
-            document.getElementById('meta-desc').setAttribute('content', translations[currentLang].metaDesc);
             document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
         });
-    </script>
 
+        // Initialize theme
+        updateThemeIcon();
+
+        // 宇宙星河涟漪特效 (Cosmic Star River Ripples)
+        const canvas = document.getElementById('galaxy-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let particles = [];
+        const numParticles = 1600; // 繁星密布的银河扩大规模
+
+        for (let i = 0; i < numParticles; i++) {
+            let maxRadius = Math.max(canvas.width, canvas.height) * 1.2;
+            let radius = Math.pow(Math.random(), 2.5) * maxRadius;
+            let angle = Math.random() * Math.PI * 2;
+            let size = Math.random() * 1.5 + 0.5;
+            let speed = (Math.random() * 0.002) + 0.0005;
+            // 荧光波场红、深邃紫、波场蓝、极客青
+            let colors = ['255, 42, 95', '121, 40, 202', '0, 112, 243', '0, 255, 204'];
+            let color = colors[Math.floor(Math.random() * colors.length)];
+            particles.push({angle, radius, size, speed, color, baseR: radius});
+        }
+
+        function animateGalaxy() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            // 采用 0.15 拖影形成星河的“流体感”与流动涟漪
+            ctx.fillStyle = isLight ? 'rgba(250, 250, 250, 0.15)' : 'rgba(3, 3, 5, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            let time = Date.now() * 0.001;
+            let cx = canvas.width / 2;
+            let cy = canvas.height / 2;
+
+            for (let p of particles) {
+                p.angle += p.speed;
+                
+                // 核心算法：波浪涟漪 (Ripples在星环中传递的形变) 
+                let rippleWave = Math.sin(p.angle * 6 - time * 3) * 15;
+                let currentRadius = p.baseR + rippleWave;
+                
+                // 计算 X, Y 并使用 0.35 因子压平 Y 轴，构建 3D 倾斜的星系盘面
+                let x = cx + Math.cos(p.angle) * currentRadius;
+                let y = cy + Math.sin(p.angle) * currentRadius * 0.35;
+
+                // 闪烁与明暗结合涟漪波位
+                let twinkle = (Math.sin(p.angle * 3 + time * 2) + 1) / 2;
+                let alpha = twinkle * 0.7 + 0.3;
+
+                ctx.fillStyle = `rgba(${p.color}, ${alpha})`;
+                ctx.beginPath();
+                ctx.arc(x, y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            requestAnimationFrame(animateGalaxy);
+        }
+        // 启动宇宙
+        animateGalaxy();
+    </script>
 </body>
 </html>
